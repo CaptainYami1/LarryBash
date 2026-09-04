@@ -204,12 +204,15 @@
 <main id="home">
 
   <!-- ================= 2. HERO SECTION (left-aligned, kinetic type) ================= -->
-  <section class="hero-bg text-white overflow-hidden relative" aria-labelledby="hero-heading">
+  <section class="bg-navy text-white overflow-hidden relative" aria-labelledby="hero-heading">
     <!-- Gradient glow accents (decorative) -->
     <div class="glow bg-apc w-72 h-72 -top-16 -right-10" aria-hidden="true"></div>
     <div class="glow bg-gold w-64 h-64 bottom-10 -left-16" aria-hidden="true"></div>
 
-    <div class="max-w-7xl mx-auto px-4 pt-16 pb-14 md:pt-24 md:pb-20 relative">
+    <div class="max-w-7xl mx-auto px-4 pt-12 pb-12 md:pt-16 md:pb-16 relative">
+      <div class="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-14 items-center">
+      <!-- Text column -->
+      <div>
       <div class="flex flex-wrap items-center gap-3 mb-8">
         <p class="inline-flex items-center gap-2 bg-gold text-navy text-xs md:text-sm font-bold uppercase tracking-widest px-4 py-1.5 rounded-full rounded-bl-none">
           <i class="fa-solid fa-broom" aria-hidden="true"></i>
@@ -225,7 +228,7 @@
         Ẹ kú àbọ̀, ará Àdó-Òdò/Ọ̀tà! <span class="text-blue-200 font-medium text-sm" lang="en">— Welcome, people of Ado-Odo/Ota.</span>
       </p>
       <h1 id="hero-heading" class="font-black uppercase leading-[0.95] tracking-tight mb-6"
-          style="font-size: clamp(1.9rem, 8.6vw, 6.25rem);">
+          style="font-size: clamp(1.9rem, 7vw, 4rem);">
         Action.<br>
         <span class="text-outline">Empowerment.</span><br>
         <span class="text-electric">Representation.</span>
@@ -260,6 +263,20 @@
           <dd class="text-3xl md:text-5xl font-black text-white"><span class="countup" data-target="50">0</span></dd>
         </div>
       </dl>
+      </div><!-- /text column -->
+
+      <!-- Portrait column: clean, campaign-owned studio photo (no watermark).
+           order-first on mobile puts the candidate up top; moves right on desktop. -->
+      <div class="order-first lg:order-last">
+        <div class="relative mx-auto w-full max-w-[240px] sm:max-w-[300px] lg:max-w-[430px]">
+          <div class="absolute -inset-3 bg-gradient-to-tr from-gold/30 to-electric/20 rounded-3xl blur-xl" aria-hidden="true"></div>
+          <img src="assets/hero-portrait.jpg"
+               alt="High Chief Taofeeq Olanrewaju Bashorun (Larrybash), APC candidate for House of Representatives, Ado-Odo/Ota Federal Constituency"
+               width="642" height="900"
+               class="relative w-full rounded-3xl rounded-br-none object-cover ring-2 ring-white/20 shadow-2xl">
+        </div>
+      </div>
+      </div><!-- /grid -->
     </div>
   </section>
 
@@ -323,7 +340,7 @@
         </a>
         <!-- Larrybash — this website is his official campaign home -->
         <a href="#about" class="nav-link group flex flex-col items-center">
-          <img src="assets/larrybash-portrait.jpg" alt="High Chief Taofeeq Olanrewaju Bashorun (Larrybash) addressing constituents" width="112" height="112" loading="lazy"
+          <img src="assets/larrybash-portrait.jpg?v=2" alt="High Chief Taofeeq Olanrewaju Bashorun (Larrybash)" width="112" height="112" loading="lazy"
                class="h-28 w-28 rounded-full object-cover ring-4 ring-navy mb-3 group-hover:ring-gold transition">
           <h3 class="font-bold text-navy group-hover:underline text-sm md:text-base">High Chief T. O. Bashorun <span class="text-gold">(Larrybash)</span></h3>
           <p class="text-sm text-gray-600">APC House of Reps Candidate, Ado-Odo/Ota Federal Constituency</p>
@@ -467,7 +484,7 @@
   </section>
 
   <!-- ================= 5. ADELE ADOKO VISION & MANIFESTO ================= -->
-  <section id="manifesto" class="bg-navy text-white" aria-labelledby="manifesto-heading">
+  <section id="manifesto" class="bg-navy text-white overflow-hidden" aria-labelledby="manifesto-heading">
     <div class="max-w-7xl mx-auto px-4 py-12 md:py-16">
       <div class="text-center mb-8 reveal">
         <p class="text-electric font-bold uppercase tracking-[0.3em] text-sm mb-2">03 &mdash; The Manifesto</p>
@@ -813,11 +830,11 @@
 
           <figure class="gallery-figure reveal" data-cat="people">
             <button type="button" class="gallery-item group relative block w-full overflow-hidden rounded-2xl rounded-br-none shadow-lg focus:outline-none focus:ring-4 focus:ring-apc"
-                    data-full="assets/g5.jpg" aria-label="Enlarge photo: Larrybash with community elders">
-              <img src="assets/g5.jpg" alt="Larrybash in a campaign cap standing with two community elders in traditional white attire"
+                    data-full="assets/g5.jpg?v=2" aria-label="Enlarge photo: Larrybash with Sen. Solomon Adeola (Yayi)">
+              <img src="assets/g5.jpg?v=2" alt="Larrybash receiving a document alongside Ogun West gubernatorial candidate Senator Solomon Adeola (Yayi)"
                    loading="lazy" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105">
               <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
-                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">Counsel first — with community elders and stakeholders</span>
+                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">One APC ticket — with our governorship candidate, Sen. Solomon Adeola (Yayi)</span>
               </span>
             </button>
           </figure>
@@ -846,11 +863,11 @@
 
           <figure class="gallery-figure reveal" data-cat="people">
             <button type="button" class="gallery-item group relative block w-full overflow-hidden rounded-2xl rounded-tl-none shadow-lg focus:outline-none focus:ring-4 focus:ring-apc"
-                    data-full="assets/g6.jpg" aria-label="Enlarge photo: a campaign speaker addresses supporters">
-              <img src="assets/g6.jpg" alt="A campaign speaker in a Yayi for Governor cap addressing supporters through a microphone"
+                    data-full="assets/g6.jpg?v=2" aria-label="Enlarge photo: Larrybash addressing supporters">
+              <img src="assets/g6.jpg?v=2" alt="Larrybash addressing supporters through a microphone at a campaign gathering"
                    loading="lazy" class="w-full aspect-[4/3] object-cover object-top transition-transform duration-500 group-hover:scale-105">
               <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
-                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">Young voices carrying the mandate to the grassroots</span>
+                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">Taking the Adele Adoko message straight to the people</span>
               </span>
             </button>
           </figure>
@@ -862,6 +879,17 @@
                    loading="lazy" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105">
               <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
                 <span class="block text-white text-xs md:text-sm font-semibold leading-snug">On stage: &ldquo;The New Path to Greater Opportunities&rdquo;</span>
+              </span>
+            </button>
+          </figure>
+
+          <figure class="gallery-figure reveal" data-cat="trail">
+            <button type="button" class="gallery-item group relative block w-full overflow-hidden rounded-2xl rounded-tr-none shadow-lg focus:outline-none focus:ring-4 focus:ring-apc"
+                    data-full="assets/g10.jpg" aria-label="Enlarge photo: Larrybash speaking to the press">
+              <img src="assets/g10.jpg" alt="Larrybash being interviewed by the press, speaking into a TVC News microphone amid supporters at a campaign event"
+                   loading="lazy" class="w-full aspect-[4/3] object-cover object-top transition-transform duration-500 group-hover:scale-105">
+              <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
+                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">On the record — Larrybash speaks to the media on the campaign trail</span>
               </span>
             </button>
           </figure>
@@ -1427,6 +1455,14 @@
     document.getElementById('optout-dev').classList.add('hidden');
   }
   function openOptout(trigger) {
+    /* If launched from the button INSIDE the privacy modal, close that modal
+       first so we never stack two aria-modal dialogs (whose focus-traps would
+       fight). Don't restore focus to a trigger that's now hidden. */
+    if (!privacyModal.classList.contains('hidden')) {
+      privacyModal.classList.add('hidden');
+      privacyTrigger = null;
+      if (trigger && privacyModal.contains(trigger)) { trigger = document.getElementById('optout-open-footer'); }
+    }
     optoutTrigger = trigger || null;
     resetOptout();
     optoutModal.classList.remove('hidden');

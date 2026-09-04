@@ -71,16 +71,21 @@ function csvCell(value) {
   return `"${s.replace(/"/g, '""')}"`;
 }
 
-router.get('/api/export.csv', async (_req, res) => {
+router.get('/api/export.csv', async (req, res) => {
   try {
-    const rows = await db.getAllVolunteers();
+    const all = await db.getAllVolunteers();
+    // NDPA: people who withdrew consent must NOT appear in the contactable list.
+    // Default export excludes them; ?include_opted_out=1 gives a full audit export.
+    const includeOptedOut = req.query.include_opted_out === '1';
+    const rows = includeOptedOut ? all : all.filter((r) => !r.opted_out);
     const lines = [CSV_COLUMNS.join(',')];
     for (const row of rows) {
       lines.push(CSV_COLUMNS.map((col) => csvCell(row[col])).join(','));
     }
     const stamp = new Date().toISOString().slice(0, 10);
+    const suffix = includeOptedOut ? 'audit-all' : 'contactable';
     res.set('Content-Type', 'text/csv; charset=utf-8');
-    res.set('Content-Disposition', `attachment; filename="larrybash-volunteers-${stamp}.csv"`);
+    res.set('Content-Disposition', `attachment; filename="larrybash-volunteers-${suffix}-${stamp}.csv"`);
     res.send('﻿' + lines.join('\r\n')); // BOM so Excel opens UTF-8 correctly
   } catch (err) {
     console.error('[admin] CSV export failed:', err.message);
