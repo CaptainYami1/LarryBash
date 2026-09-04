@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="High Chief Taofeeq Olanrewaju Bashorun (Larrybash) — APC Candidate, House of Representatives, Ado-Odo/Ota Federal Constituency, 2027. Action. Empowerment. Representation.">
+  <title>Larrybash 2027 | Adele Adoko — APC, Ado-Odo/Ota Federal Constituency</title>
+
+  <!-- ============================================================
+       LARRYBASH 2027 CAMPAIGN PROTOTYPE
+       Stack: HTML5 + Tailwind CSS (CDN) + Vanilla JS + FontAwesome
+       Optimized for: mobile-first, 3G networks (no heavy frameworks,
+       no external images — placeholders are inline SVG/CSS)
+       ============================================================ -->
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Brand palette — campaign color system + Electric Blue interaction accent */
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy:     '#003366',  /* Deep Executive Navy (dark base)          */
+            apc:      '#3399CC',  /* Electric APC Light Blue                  */
+            electric: '#3399CC',  /* Interaction accent — aliased to APC blue */
+            green:    '#008000',  /* Vibrant Grassroots Green                 */
+            gold:     '#DAA520',  /* Awori Heritage Gold                      */
+            charcoal: '#1F2937',  /* Dark Charcoal body text                  */
+          },
+          fontFamily: {
+            sans:    ['Inter', 'Segoe UI', 'system-ui', '-apple-system', 'Roboto', 'Arial', 'sans-serif'],
+            display: ['Montserrat', 'Segoe UI', 'system-ui', 'Arial', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Typography pairing: Montserrat (heavy geometric display) + Inter (readable body).
+       font-display: swap keeps text visible on slow 3G connections. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@400;600;700&display=swap">
+
+  <!-- FontAwesome icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+    /* Hero background: Larrybash addressing constituents on the campaign
+       trail (assets/hero-larrybash.jpg, optimized to ~194KB for 3G), under
+       a navy gradient that keeps the headline text legible. */
+    .hero-bg {
+      background:
+        linear-gradient(rgba(0, 51, 102, 0.82), rgba(0, 51, 102, 0.62)),
+        url("assets/hero-larrybash.jpg");
+      background-size: cover;
+      background-position: center 25%;
+    }
+    /* Reveal-on-scroll (progressive enhancement — content visible without JS) */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ---- Design system: kinetic micro-interactions ---- */
+
+    /* Display typography: all headings run Montserrat, heavy + uppercase energy */
+    h1, h2, h3, .font-display { font-family: Montserrat, 'Segoe UI', system-ui, Arial, sans-serif; }
+
+    /* Scroll progress bar (gold → APC blue, top of viewport) */
+    #scroll-progress {
+      position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+      background: linear-gradient(90deg, #DAA520, #3399CC);
+      z-index: 60; transition: width .1s linear;
+    }
+
+    /* Decorative gradient glow blobs (pure CSS, zero payload) */
+    .glow {
+      position: absolute; border-radius: 9999px; filter: blur(70px);
+      opacity: .45; pointer-events: none;
+    }
+
+    /* Glassmorphism card (for dark navy sections) */
+    .glass-card {
+      background: rgba(255, 255, 255, .08);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, .16);
+    }
+
+    /* Outlined display text (hero "EMPOWERMENT") */
+    .text-outline {
+      color: transparent;
+      -webkit-text-stroke: 2px #DAA520;
+      text-stroke: 2px #DAA520;
+    }
+
+    /* Nav links: electric underline slides in on hover */
+    .nav-underline { position: relative; }
+    .nav-underline::after {
+      content: ''; position: absolute; left: 0; bottom: -4px; height: 2px; width: 100%;
+      background: #3399CC; transform: scaleX(0); transform-origin: left;
+      transition: transform .25s ease;
+    }
+    .nav-underline:hover::after, .nav-underline:focus-visible::after { transform: scaleX(1); }
+
+    /* CTA buttons: lift + glow on hover, compress on press */
+    .btn-kinetic {
+      transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
+      will-change: transform;
+    }
+    .btn-kinetic:hover { transform: translateY(-3px); box-shadow: 0 12px 28px -8px rgba(51, 153, 204, .6); }
+    .btn-kinetic:active { transform: translateY(0) scale(.97); }
+
+    /* Cards: lift with a colored glow */
+    .card-lift { transition: transform .25s ease, box-shadow .25s ease; }
+    .card-lift:hover { transform: translateY(-6px); box-shadow: 0 18px 40px -12px rgba(0, 51, 102, .35); }
+
+    /* Marquee ticker */
+    .ticker-track { display: flex; width: max-content; animation: ticker 22s linear infinite; }
+    .ticker-track:hover { animation-play-state: paused; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* Map facade: a faux street grid drawn in CSS, so the placeholder costs zero bandwidth */
+    .map-facade {
+      background-color: #0B2F57;
+      background-image:
+        linear-gradient(rgba(51, 153, 204, .22) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(51, 153, 204, .22) 2px, transparent 2px),
+        linear-gradient(rgba(51, 153, 204, .10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(51, 153, 204, .10) 1px, transparent 1px);
+      background-size: 130px 130px, 130px 130px, 32px 32px, 32px 32px;
+    }
+
+    /* Glass sticky nav */
+    .nav-glass { background: rgba(0, 51, 102, .88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      html { scroll-behavior: auto; }
+      .ticker-track { animation: none; }
+      .btn-kinetic, .card-lift, .nav-underline::after { transition: none; }
+      .btn-kinetic:hover, .card-lift:hover { transform: none; }
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-800 font-sans antialiased">
+
+<!-- ================= 1. STICKY HEADER & NAVIGATION ================= -->
+<div id="scroll-progress" aria-hidden="true"></div>
+<header id="site-header" class="sticky top-0 z-50 nav-glass shadow-lg" role="banner">
+  <nav class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3" aria-label="Main navigation">
+    <!-- Logo -->
+    <a href="#home" class="nav-link flex items-center gap-2.5 text-white font-extrabold text-lg md:text-xl tracking-tight whitespace-nowrap">
+      <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gold text-navy font-black" aria-hidden="true">L</span>
+      <span>Larrybash 2027 <span class="text-gold font-semibold lg:hidden xl:inline">| Adele Adoko</span></span>
+      <!-- ?v=2 busts the 7-day immutable asset cache after the logo redraw -->
+      <!-- Dimensions pinned inline: the Tailwind CDN's JIT can lag on first paint, and an
+           unsized SVG collapses to 0 width. ?v=3 busts the 7-day immutable asset cache. -->
+      <img src="assets/apc-logo.svg?v=3" alt="APC" width="37" height="32" style="width:37px;height:32px;max-width:none"
+           class="shrink-0 rounded-sm hidden sm:block">
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="hidden lg:flex items-center gap-4 xl:gap-6 text-sm font-semibold text-white whitespace-nowrap">
+      <li><a href="#home"         class="nav-link nav-underline hover:text-electric transition-colors">Home</a></li>
+      <li><a href="#about"        class="nav-link nav-underline hover:text-electric transition-colors">About</a></li>
+      <li><a href="#constituency" class="nav-link nav-underline hover:text-electric transition-colors">Constituency</a></li>
+      <li><a href="#manifesto"    class="nav-link nav-underline hover:text-electric transition-colors">The Manifesto</a></li>
+      <li><a href="#volunteer"    class="nav-link nav-underline hover:text-electric transition-colors">Volunteer Portal</a></li>
+      <li><a href="#media"        class="nav-link nav-underline hover:text-electric transition-colors">Media</a></li>
+      <li><a href="#contact"      class="nav-link nav-underline hover:text-electric transition-colors">Contact</a></li>
+      <li>
+        <a href="#volunteer" class="nav-link btn-kinetic inline-block bg-green hover:bg-gold hover:text-navy text-white px-5 py-2 rounded-full font-bold">
+          Join the Movement
+        </a>
+      </li>
+    </ul>
+
+    <!-- Mobile hamburger -->
+    <button id="menu-btn" class="lg:hidden text-white text-2xl p-1" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+      <i class="fa-solid fa-bars" aria-hidden="true"></i>
+    </button>
+  </nav>
+
+  <!-- Mobile menu (toggled by JS) -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-navy border-t border-apc/40 px-4 pb-4">
+    <ul class="flex flex-col gap-1 text-white font-semibold">
+      <li><a href="#home"         class="nav-link block py-2 hover:text-gold">Home</a></li>
+      <li><a href="#about"        class="nav-link block py-2 hover:text-gold">About</a></li>
+      <li><a href="#constituency" class="nav-link block py-2 hover:text-gold">Constituency</a></li>
+      <li><a href="#manifesto"    class="nav-link block py-2 hover:text-gold">The Manifesto</a></li>
+      <li><a href="#volunteer" class="nav-link block py-2 hover:text-gold">Volunteer Portal</a></li>
+      <li><a href="#media"     class="nav-link block py-2 hover:text-gold">Media</a></li>
+      <li><a href="#contact"   class="nav-link block py-2 hover:text-gold">Contact</a></li>
+      <li>
+        <a href="#volunteer" class="nav-link mt-2 block text-center bg-green hover:bg-gold hover:text-navy px-5 py-2.5 rounded-full font-bold">
+          Join the Movement
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<main id="home">
+
+  <!-- ================= 2. HERO SECTION (left-aligned, kinetic type) ================= -->
+  <section class="hero-bg text-white overflow-hidden relative" aria-labelledby="hero-heading">
+    <!-- Gradient glow accents (decorative) -->
+    <div class="glow bg-apc w-72 h-72 -top-16 -right-10" aria-hidden="true"></div>
+    <div class="glow bg-gold w-64 h-64 bottom-10 -left-16" aria-hidden="true"></div>
+
+    <div class="max-w-7xl mx-auto px-4 pt-16 pb-14 md:pt-24 md:pb-20 relative">
+      <div class="flex flex-wrap items-center gap-3 mb-8">
+        <p class="inline-flex items-center gap-2 bg-gold text-navy text-xs md:text-sm font-bold uppercase tracking-widest px-4 py-1.5 rounded-full rounded-bl-none">
+          <i class="fa-solid fa-broom" aria-hidden="true"></i>
+          <span class="sm:hidden">APC &bull; House of Reps &bull; 2027</span>
+          <span class="hidden sm:inline">APC &bull; House of Representatives &bull; 2027</span>
+        </p>
+        <p class="inline-flex items-center gap-2 glass-card text-white text-xs md:text-sm font-bold uppercase tracking-widest px-4 py-1.5 rounded-full rounded-tr-none">
+          Justice <span class="text-gold" aria-hidden="true">&bull;</span> Peace <span class="text-gold" aria-hidden="true">&bull;</span> Unity
+        </p>
+      </div>
+
+      <p class="text-gold font-bold text-base md:text-lg mb-3" lang="yo">
+        Ẹ kú àbọ̀, ará Àdó-Òdò/Ọ̀tà! <span class="text-blue-200 font-medium text-sm" lang="en">— Welcome, people of Ado-Odo/Ota.</span>
+      </p>
+      <h1 id="hero-heading" class="font-black uppercase leading-[0.95] tracking-tight mb-6"
+          style="font-size: clamp(1.9rem, 8.6vw, 6.25rem);">
+        Action.<br>
+        <span class="text-outline">Empowerment.</span><br>
+        <span class="text-electric">Representation.</span>
+      </h1>
+
+      <p class="max-w-2xl text-base md:text-xl text-blue-100 mb-9 border-l-4 border-gold pl-4">
+        High Chief Taofeeq Olanrewaju Bashorun <strong class="text-white">(Larrybash)</strong> — Seriki of Ota,
+        Awori Land &amp; APC Candidate, House of Representatives, Ado-Odo/Ota Federal Constituency.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-12">
+        <a href="#volunteer" class="nav-link btn-kinetic text-center bg-green text-white font-bold px-8 py-4 rounded-full rounded-tr-none text-lg shadow-lg hover:bg-gold hover:text-navy">
+          <i class="fa-solid fa-hand-fist mr-2" aria-hidden="true"></i>Join the Volunteer Network
+        </a>
+        <a href="#manifesto" class="nav-link btn-kinetic text-center border-2 border-electric text-electric font-bold px-8 py-4 rounded-full rounded-bl-none text-lg hover:bg-electric hover:text-navy">
+          <i class="fa-solid fa-scroll mr-2" aria-hidden="true"></i>Read the Adele Adoko Agenda
+        </a>
+      </div>
+
+      <!-- Live-counting mandate stats -->
+      <dl class="grid grid-cols-3 max-w-2xl gap-4 border-t border-white/20 pt-6">
+        <div>
+          <dt class="order-last text-xs uppercase tracking-widest text-blue-200 mt-1">Primary Votes</dt>
+          <dd class="text-3xl md:text-5xl font-black text-gold"><span class="countup" data-target="17740">0</span></dd>
+        </div>
+        <div>
+          <dt class="order-last text-xs uppercase tracking-widest text-blue-200 mt-1">Wards United</dt>
+          <dd class="text-3xl md:text-5xl font-black text-electric"><span class="countup" data-target="16">0</span>/16</dd>
+        </div>
+        <div>
+          <dt class="order-last text-xs uppercase tracking-widest text-blue-200 mt-1">Years — Ogun West's Wait</dt>
+          <dd class="text-3xl md:text-5xl font-black text-white"><span class="countup" data-target="50">0</span></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Kinetic ticker strip -->
+  <div class="bg-navy border-y-2 border-gold overflow-hidden py-3" aria-hidden="true">
+    <div class="ticker-track text-white font-bold uppercase tracking-widest text-sm md:text-base whitespace-nowrap">
+      <span class="px-6"><span lang="yo">Ẹ kú àbọ̀</span> <span class="text-gold">✦</span> <span lang="yo">Áá délé, áá dókò</span> <span class="text-electric">✦</span> <span lang="yo">Òtè yìí má yàtọ̀</span> <span class="text-gold">✦</span> Action, Not Allocation <span class="text-electric">✦</span> 16 Wards. 1 Voice. <i class="fa-solid fa-broom text-gold mx-1" aria-hidden="true"></i> Every Community Reached <span class="text-electric">✦</span> No One Left Behind <span class="text-gold">✦</span> APC All The Way <span class="text-electric">✦</span></span>
+      <span class="px-6"><span lang="yo">Ẹ kú àbọ̀</span> <span class="text-gold">✦</span> <span lang="yo">Áá délé, áá dókò</span> <span class="text-electric">✦</span> <span lang="yo">Òtè yìí má yàtọ̀</span> <span class="text-gold">✦</span> Action, Not Allocation <span class="text-electric">✦</span> 16 Wards. 1 Voice. <i class="fa-solid fa-broom text-gold mx-1" aria-hidden="true"></i> Every Community Reached <span class="text-electric">✦</span> No One Left Behind <span class="text-gold">✦</span> APC All The Way <span class="text-electric">✦</span></span>
+    </div>
+  </div>
+
+  <!-- ================= 3. APC ALIGNMENT BANNER ================= -->
+  <section class="bg-apc/10 border-y-4 border-gold" aria-labelledby="alignment-heading">
+    <div class="max-w-7xl mx-auto px-4 py-12 text-center reveal">
+      <!-- Official APC emblem anchors the party banner -->
+      <a href="https://apc.com.ng" target="_blank" rel="noopener noreferrer" class="inline-block mb-4" aria-label="All Progressives Congress — official website">
+        <img src="assets/apc-logo.svg?v=3" alt="All Progressives Congress (APC) logo" width="74" height="64"
+             style="width:74px;height:64px;max-width:none" class="mx-auto rounded shadow-lg transition-transform hover:scale-110">
+      </a>
+      <h2 id="alignment-heading" class="text-navy text-xl md:text-2xl font-extrabold mb-2">
+        United in Purpose.
+      </h2>
+      <p class="text-gray-700 max-w-3xl mx-auto mb-2 font-medium">
+        One party, one mandate: <span class="text-navy font-bold">Renewed Hope</span> at the centre,
+        <span class="text-green font-bold">governance that works for everyone</span> in Ogun,
+        <span class="text-gold font-bold">Adele Adoko</span> in every ward.
+      </p>
+      <p class="text-sm text-navy font-bold uppercase tracking-wide max-w-3xl mx-auto mb-10">
+        Four candidates. One APC ticket. Vote the Broom from the Presidency down to your polling unit.
+      </p>
+
+      <!-- Grid of aligned leadership (order: Ojugbele → Tinubu → Yayi → Larrybash);
+           photos link to each leader's official website or page -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-5xl mx-auto">
+        <!-- President Tinubu — official Facebook page (no dedicated PBAT 2027
+             campaign site at build time; swap when one launches) -->
+        <a href="https://www.facebook.com/officialasiwajubat/" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center">
+          <img src="assets/tinubu-portrait.jpg" alt="President Bola Ahmed Tinubu" width="112" height="112" loading="lazy"
+               class="h-28 w-28 rounded-full object-cover object-top ring-4 ring-gold mb-3 group-hover:ring-navy transition">
+          <h3 class="font-bold text-navy group-hover:underline text-sm md:text-base">President Bola Ahmed Tinubu</h3>
+          <p class="text-sm text-gray-600">APC Presidential Candidate, Federal Republic of Nigeria</p>
+          <p class="text-xs text-apc font-semibold mt-1"><i class="fa-brands fa-facebook mr-1" aria-hidden="true"></i>officialasiwajubat</p>
+        </a>
+        <!-- Sen. Adeola (Yayi) — official campaign website -->
+        <a href="https://yayiadeola.com.ng/" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center">
+          <img src="assets/yayi-portrait.jpg" alt="Senator Solomon Adeola (Yayi), Ogun State gubernatorial candidate" width="112" height="112" loading="lazy"
+               class="h-28 w-28 rounded-full object-cover object-top ring-4 ring-gold mb-3 group-hover:ring-green transition">
+          <h3 class="font-bold text-navy group-hover:underline text-sm md:text-base">Sen. Solomon Adeola <span class="text-green">(Yayi)</span></h3>
+          <p class="text-sm text-gray-600">APC Governorship Candidate, Ogun State</p>
+          <p class="text-xs text-apc font-semibold mt-1"><i class="fa-solid fa-arrow-up-right-from-square mr-1" aria-hidden="true"></i>yayiadeola.com.ng</p>
+        </a>
+        <!-- Hon. Jimoh Olushola Ojugbele — Ogun West Senate. No official campaign
+             site/page found at build time; links to his public profile. -->
+        <a href="https://en.wikipedia.org/wiki/Jimoh_Ojugbele" target="_blank" rel="noopener noreferrer" class="group flex flex-col items-center">
+          <!-- ?v=2 busts the 7-day immutable asset cache after the photo swap -->
+          <img src="assets/ojugbele-portrait.jpg?v=2" alt="Hon. Jimoh Olushola Ojugbele, APC Ogun West senatorial candidate" width="112" height="112" loading="lazy"
+               class="h-28 w-28 rounded-full object-cover object-top ring-4 ring-gold mb-3 group-hover:ring-apc transition">
+          <h3 class="font-bold text-navy group-hover:underline text-sm md:text-base">Hon. Jimoh Olushola Ojugbele</h3>
+          <p class="text-sm text-gray-600">APC Senatorial Candidate, Ogun West</p>
+          <p class="text-xs text-apc font-semibold mt-1"><i class="fa-solid fa-arrow-up-right-from-square mr-1" aria-hidden="true"></i>Profile</p>
+        </a>
+        <!-- Larrybash — this website is his official campaign home -->
+        <a href="#about" class="nav-link group flex flex-col items-center">
+          <img src="assets/larrybash-portrait.jpg" alt="High Chief Taofeeq Olanrewaju Bashorun (Larrybash) addressing constituents" width="112" height="112" loading="lazy"
+               class="h-28 w-28 rounded-full object-cover ring-4 ring-navy mb-3 group-hover:ring-gold transition">
+          <h3 class="font-bold text-navy group-hover:underline text-sm md:text-base">High Chief T. O. Bashorun <span class="text-gold">(Larrybash)</span></h3>
+          <p class="text-sm text-gray-600">APC House of Reps Candidate, Ado-Odo/Ota Federal Constituency</p>
+          <p class="text-xs text-apc font-semibold mt-1"><i class="fa-solid fa-circle-user mr-1" aria-hidden="true"></i>Meet Larrybash</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 4. ABOUT LARRYBASH ================= -->
+  <section id="about" class="max-w-7xl mx-auto px-4 py-12 md:py-16" aria-labelledby="about-heading">
+    <div class="mb-8 reveal">
+      <p class="text-electric font-bold uppercase tracking-[0.3em] text-sm mb-2">01 &mdash; The Man &amp; The Leader</p>
+      <h2 id="about-heading" class="font-black text-navy uppercase tracking-tight leading-none" style="font-size: clamp(2rem, 6vw, 3.5rem);">About Larrybash</h2>
+      <div class="mt-4 h-1.5 w-24 bg-gold rounded-full" aria-hidden="true"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-10 items-start">
+      <!-- Traditional authority + quote -->
+      <div class="reveal">
+        <div class="bg-navy text-white rounded-2xl p-8 shadow-xl">
+          <h3 class="text-gold font-extrabold text-xl mb-3">
+            <i class="fa-solid fa-crown mr-2" aria-hidden="true"></i>Rooted in Awori Traditional Authority
+          </h3>
+          <p class="text-blue-100 leading-relaxed mb-4 text-justify hyphens-auto">
+            As the <strong class="text-white">Seriki of Ota, Awori Land</strong> and
+            <strong class="text-white">traditional Chief of Staff &amp; Spokesperson of the Olota-in-Council</strong>
+            under HRM Oba (Prof.) Abdulkabir Adeyemi Obalanlege, Larrybash carries the trust of the
+            traditional institution — a bridge between our heritage and proactive, modern representation.
+          </p>
+          <p class="text-blue-100 leading-relaxed mb-4 text-sm text-justify hyphens-auto">
+            <i class="fa-solid fa-award text-gold mr-2" aria-hidden="true"></i>Endorsed by the
+            <strong class="text-white">Forum of Awori Intelligentsia (FAI)</strong>, which has called on all
+            sons, daughters and residents of the constituency to send Larrybash to the National Assembly in 2027.
+          </p>
+          <blockquote class="border-l-4 border-gold pl-4 italic text-blue-50 text-justify hyphens-auto">
+            &ldquo;I have a track record of full-fledged community and human capital development.
+            I have engaged in this for decades before any aspiration for political office.&rdquo;
+            <footer class="mt-2 not-italic text-gold font-semibold text-left">— High Chief Taofeeq Olanrewaju Bashorun</footer>
+          </blockquote>
+        </div>
+      </div>
+
+      <!-- Verified background timeline -->
+      <div class="reveal">
+        <h3 class="text-navy font-extrabold text-xl mb-5">
+          <i class="fa-solid fa-clipboard-check text-green mr-2" aria-hidden="true"></i>Verified Background
+        </h3>
+        <ul class="space-y-4">
+          <li class="flex gap-4">
+            <span class="mt-1 h-9 w-9 shrink-0 rounded-full bg-apc/20 text-navy flex items-center justify-center"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></span>
+            <p class="text-justify hyphens-auto"><strong class="text-navy">Ansar-ud-Deen Grammar School, Ota</strong> — completed secondary education (1988/89 set), grounded from youth in the Ota community.</p>
+          </li>
+          <li class="flex gap-4">
+            <span class="mt-1 h-9 w-9 shrink-0 rounded-full bg-apc/20 text-navy flex items-center justify-center"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+            <p class="text-justify hyphens-auto"><strong class="text-navy">National Security Service</strong> — served with the National Security Guard and the NDLEA until 1999, building hands-on security and anti-narcotics expertise.</p>
+          </li>
+          <li class="flex gap-4">
+            <span class="mt-1 h-9 w-9 shrink-0 rounded-full bg-apc/20 text-navy flex items-center justify-center"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></span>
+            <p class="text-justify hyphens-auto"><strong class="text-navy">Private Security Entrepreneur</strong> — founded and ran private security operations in Lagos, protecting lives, businesses and livelihoods.</p>
+          </li>
+          <li class="flex gap-4">
+            <span class="mt-1 h-9 w-9 shrink-0 rounded-full bg-apc/20 text-navy flex items-center justify-center"><i class="fa-solid fa-people-group" aria-hidden="true"></i></span>
+            <p class="text-justify hyphens-auto"><strong class="text-navy">Executive &amp; Union Leadership</strong> — leadership roles at Gokada and Chairman, Lagos Goat and Ram Butchers, managing two abattoirs and thousands of grassroots livelihoods.</p>
+          </li>
+          <li class="flex gap-4">
+            <span class="mt-1 h-9 w-9 shrink-0 rounded-full bg-apc/20 text-navy flex items-center justify-center"><i class="fa-solid fa-earth-africa" aria-hidden="true"></i></span>
+            <p class="text-justify hyphens-auto"><strong class="text-navy">Advanced Studies, United Kingdom</strong> — global exposure and executive education to match grassroots credibility with boardroom readiness.</p>
+          </li>
+          <li class="flex gap-4">
+            <span class="mt-1 h-9 w-9 shrink-0 rounded-full bg-apc/20 text-navy flex items-center justify-center"><i class="fa-solid fa-dove" aria-hidden="true"></i></span>
+            <p class="text-justify hyphens-auto"><strong class="text-navy">Proven Peacemaker</strong> — in January 2025, alongside the Olota of Ota, he swiftly mediated a volatile clash in Ota, preventing a breakdown of law and order; and long before politics, he funded monthly stipends for elderly citizens, scholarships and hospital bills for indigent constituents.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 4b. THE CONSTITUENCY: ADO-ODO/OTA IN FOCUS ================= -->
+  <section id="constituency" class="bg-gray-50 border-y border-gray-200" aria-labelledby="constituency-heading">
+    <div class="max-w-7xl mx-auto px-4 py-12 md:py-16">
+      <div class="mb-8 reveal">
+        <p class="text-electric font-bold uppercase tracking-[0.3em] text-sm mb-2">02 &mdash; Where He Will Represent</p>
+        <h2 id="constituency-heading" class="font-black text-navy uppercase tracking-tight leading-none" style="font-size: clamp(2rem, 6vw, 3.5rem);">Ado-Odo/Ota</h2>
+        <p class="text-navy/70 font-bold text-lg mt-1">Federal Constituency</p>
+        <div class="mt-4 h-1.5 w-24 bg-gold rounded-full" aria-hidden="true"></div>
+      </div>
+
+      <!-- Constituency brief: justified editorial columns + pull-quote callout -->
+      <div class="reveal max-w-5xl mb-10">
+        <div class="md:columns-2 md:gap-10 text-gray-700 leading-relaxed md:text-justify hyphens-auto space-y-4">
+          <p>
+            Ado-Odo/Ota is the <strong class="text-navy">industrial heartbeat of Ogun State</strong> and one of
+            Nigeria's most strategic constituencies. Anchored on the ancient Awori town of Ota, seat of the
+            <strong class="text-navy">Olota of Ota</strong>, it stretches from the bustling Sango-Ota axis through
+            Ijoko, Atan and Ado-Odo to the vast industrial estates of <strong class="text-navy">Agbara and Igbesa</strong>,
+            where multinational manufacturers in food, beverages and pharmaceuticals operate on Awori soil.
+          </p>
+          <p>
+            Sharing a long boundary with Lagos State and serving as a gateway to the Republic of Benin through the
+            Ota–Idiroko corridor, the constituency is home to millions of residents, traders and industrial workers
+            across its <strong class="text-navy">16 political wards</strong>. Yet a painful paradox persists, and
+            resolving it is the heart of the Adele Adoko mandate.
+          </p>
+        </div>
+        <blockquote class="mt-6 border-l-4 border-gold bg-white rounded-r-2xl px-5 py-4 shadow-md">
+          <p class="font-display font-black text-navy text-lg md:text-2xl uppercase tracking-tight leading-tight">
+            &ldquo;We host the factories, but we do not hold the jobs.&rdquo;
+          </p>
+          <footer class="text-xs font-semibold uppercase tracking-widest text-apc mt-2">The paradox Adele Adoko exists to end</footer>
+        </blockquote>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="reveal card-lift bg-white rounded-2xl rounded-br-none p-6 text-center shadow-md border-b-4 border-apc">
+          <span class="mx-auto mb-3 h-12 w-12 rounded-full bg-apc/10 text-apc flex items-center justify-center text-xl"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i></span>
+          <p class="text-3xl font-black text-navy">16</p>
+          <h3 class="font-bold text-navy text-sm mt-1">Political Wards</h3>
+          <p class="text-xs text-gray-500 mt-1">From Ota 1 to Ketu — every ward organised</p>
+        </div>
+        <div class="reveal card-lift bg-white rounded-2xl rounded-br-none p-6 text-center shadow-md border-b-4 border-green">
+          <span class="mx-auto mb-3 h-12 w-12 rounded-full bg-green/10 text-green flex items-center justify-center text-xl"><i class="fa-solid fa-industry" aria-hidden="true"></i></span>
+          <p class="text-3xl font-black text-navy">2</p>
+          <h3 class="font-bold text-navy text-sm mt-1">Major Industrial Estates</h3>
+          <p class="text-xs text-gray-500 mt-1">Agbara &amp; Igbesa — plus the Sango-Ota corridor</p>
+        </div>
+        <div class="reveal card-lift bg-white rounded-2xl rounded-br-none p-6 text-center shadow-md border-b-4 border-gold">
+          <span class="mx-auto mb-3 h-12 w-12 rounded-full bg-gold/10 text-gold flex items-center justify-center text-xl"><i class="fa-solid fa-route" aria-hidden="true"></i></span>
+          <p class="text-3xl font-black text-navy">2</p>
+          <h3 class="font-bold text-navy text-sm mt-1">Strategic Borders</h3>
+          <p class="text-xs text-gray-500 mt-1">Lagos State &amp; the Idiroko gateway to Benin Republic</p>
+        </div>
+        <div class="reveal card-lift bg-white rounded-2xl rounded-br-none p-6 text-center shadow-md border-b-4 border-navy">
+          <span class="mx-auto mb-3 h-12 w-12 rounded-full bg-navy/10 text-navy flex items-center justify-center text-xl"><i class="fa-solid fa-crown" aria-hidden="true"></i></span>
+          <p class="text-3xl font-black text-navy">1</p>
+          <h3 class="font-bold text-navy text-sm mt-1">Awori Heartland</h3>
+          <p class="text-xs text-gray-500 mt-1">Seat of the Olota of Ota &amp; centuries of Awori heritage</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 5. ADELE ADOKO VISION & MANIFESTO ================= -->
+  <section id="manifesto" class="bg-navy text-white" aria-labelledby="manifesto-heading">
+    <div class="max-w-7xl mx-auto px-4 py-12 md:py-16">
+      <div class="text-center mb-8 reveal">
+        <p class="text-electric font-bold uppercase tracking-[0.3em] text-sm mb-2">03 &mdash; The Manifesto</p>
+        <h2 id="manifesto-heading" class="font-black uppercase tracking-tight leading-none" style="font-size: clamp(2rem, 6vw, 3.5rem);">The &ldquo;Adele Adoko&rdquo; Vision</h2>
+        <p class="text-gold max-w-2xl mx-auto mt-4 font-semibold italic">
+          <span lang="yo">&ldquo;Áá délé, áá dókò&rdquo;</span> — Adele Adoko, a cherished Awori promise:
+          we will reach every home and every farm; every community reached, every interest represented, no one left behind.
+        </p>
+        <p class="text-blue-100 max-w-2xl mx-auto mt-2">Three core pillars. One principle: <strong class="text-white">action, not allocation</strong> — representation that shows up, delivers, and answers to the grassroots.</p>
+        <div class="mx-auto mt-5 h-1.5 w-24 bg-gold rounded-full" aria-hidden="true"></div>
+      </div>
+
+      <!-- Bento grid: asymmetric glass tiles on the navy base -->
+      <div class="grid md:grid-cols-6 gap-5 relative">
+        <div class="glow bg-apc w-80 h-80 -top-20 left-1/3" aria-hidden="true"></div>
+
+        <!-- Pillar 1 (wide tile) -->
+        <article class="reveal card-lift glass-card text-white rounded-3xl rounded-tr-none p-7 md:col-span-4 border-t-4 border-green relative overflow-hidden">
+          <span class="h-12 w-12 rounded-xl rounded-br-none bg-green text-white flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-industry" aria-hidden="true"></i></span>
+          <h3 class="font-extrabold text-lg md:text-xl mb-3 uppercase tracking-tight">Pillar 1: Economic Empowerment &amp; Industrial Synergy</h3>
+          <p class="text-sm leading-relaxed text-blue-100 text-justify hyphens-auto">
+            Convene the <strong class="text-white">Ado-Odo/Ota &amp; Igbesa Industrial Summit within the first 100 days</strong> to
+            formalise a <strong class="text-white">&ldquo;Host Community First&rdquo;</strong> employment framework with the factories
+            on our soil; revive technical education — the <strong class="text-white">Igbesa Technical School</strong> and the
+            <strong class="text-white">ILO facility</strong> — so our youths graduate with the exact skills industry demands; and
+            champion micro-grants and modern market infrastructure for market women and artisans.
+          </p>
+        </article>
+
+        <!-- Pillar 2 (tall narrow tile) -->
+        <article class="reveal card-lift glass-card text-white rounded-3xl rounded-bl-none p-7 md:col-span-2 border-t-4 border-apc">
+          <span class="h-12 w-12 rounded-xl rounded-br-none bg-apc text-navy flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i></span>
+          <h3 class="font-extrabold text-lg mb-3 uppercase tracking-tight">Pillar 2: Proactive Social Welfare</h3>
+          <p class="text-sm leading-relaxed text-blue-100 text-justify hyphens-auto">
+            Institutionalise <strong class="text-white">constituency food banks</strong> so no family is left behind, expand
+            <strong class="text-white">scholarship programmes</strong> for indigent students across all 16 wards, and provide
+            <strong class="text-white">healthcare assistance</strong> that reaches the elderly, widows and the vulnerable — proactively, not reactively.
+          </p>
+        </article>
+
+        <!-- Candidate philosophy tile — the principle that binds the three pillars -->
+        <blockquote class="reveal card-lift bg-gold text-navy rounded-3xl rounded-tl-none p-7 md:col-span-2 flex flex-col justify-center">
+          <i class="fa-solid fa-quote-left text-3xl mb-3 opacity-80" aria-hidden="true"></i>
+          <p class="font-display font-black uppercase text-xl md:text-2xl leading-tight tracking-tight">
+            I will not wait for government allocation before giving my people what they deserve.
+          </p>
+          <footer class="text-xs font-bold uppercase tracking-widest mt-4">&mdash; High Chief T. O. Bashorun (Larrybash)</footer>
+        </blockquote>
+
+        <!-- Pillar 3 (wide tile) -->
+        <article class="reveal card-lift glass-card text-white rounded-3xl rounded-br-none p-7 md:col-span-4 border-t-4 border-gold">
+          <span class="h-12 w-12 rounded-xl rounded-br-none bg-gold text-navy flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-shield-heart" aria-hidden="true"></i></span>
+          <h3 class="font-extrabold text-lg md:text-xl mb-3 uppercase tracking-tight">Pillar 3: Security &amp; Community Resilience</h3>
+          <p class="text-sm leading-relaxed text-blue-100 text-justify hyphens-auto">
+            Leveraging decades of NDLEA and private security experience — and building on his past donations of a
+            <strong class="text-white">Hilux patrol van and motorcycles to the Amotekun Corps</strong> — he will institutionalise
+            <strong class="text-white">logistical support for grassroots security</strong>, establish <strong class="text-white">anti-cultism youth
+            rehabilitation centres</strong>, and advocate specialised federal deployments for our border and
+            industrial corridors.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 5b. CAMPAIGN INTEGRITY / DIGITAL CODE OF CONDUCT ================= -->
+  <section id="integrity" class="bg-gray-50 border-y border-gray-200" aria-labelledby="integrity-heading">
+    <div class="max-w-7xl mx-auto px-4 py-12 md:py-16">
+      <div class="mb-6 reveal">
+        <p class="text-electric font-bold uppercase tracking-[0.3em] text-sm mb-2">Our Commitment</p>
+        <h2 id="integrity-heading" class="font-black text-navy uppercase tracking-tight leading-none" style="font-size: clamp(2rem, 6vw, 3.5rem);">Clean. Issue-Based. Peaceful.</h2>
+        <div class="mt-4 h-1.5 w-24 bg-gold rounded-full" aria-hidden="true"></div>
+      </div>
+      <p class="reveal max-w-3xl text-gray-700 leading-relaxed mb-8 text-justify hyphens-auto">
+        The Adele Adoko movement wins through superior ideas, deep empathy and unyielding discipline —
+        never through intimidation. Every volunteer, online and on the streets, upholds this code:
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="reveal card-lift bg-white rounded-2xl rounded-tr-none p-6 shadow-md border-t-4 border-green">
+          <i class="fa-solid fa-dove text-2xl text-green mb-3" aria-hidden="true"></i>
+          <h3 class="font-extrabold text-navy mb-1">Zero Violence</h3>
+          <p class="text-sm text-gray-600 text-justify hyphens-auto">No thuggery, no intimidation. We de-escalate, walk away, and report — we never retaliate.</p>
+        </div>
+        <div class="reveal card-lift bg-white rounded-2xl rounded-tr-none p-6 shadow-md border-t-4 border-apc">
+          <i class="fa-solid fa-scale-balanced text-2xl text-apc mb-3" aria-hidden="true"></i>
+          <h3 class="font-extrabold text-navy mb-1">Issue-Based</h3>
+          <p class="text-sm text-gray-600 text-justify hyphens-auto">We debate policies, records and capacity — never the personalities or families of our opponents.</p>
+        </div>
+        <div class="reveal card-lift bg-white rounded-2xl rounded-tr-none p-6 shadow-md border-t-4 border-gold">
+          <i class="fa-solid fa-circle-check text-2xl text-gold mb-3" aria-hidden="true"></i>
+          <h3 class="font-extrabold text-navy mb-1">Truth Online</h3>
+          <p class="text-sm text-gray-600 text-justify hyphens-auto">No fake news, no cyberbullying, no tribal or religious slurs. We verify before we share.</p>
+        </div>
+        <div class="reveal card-lift bg-white rounded-2xl rounded-tr-none p-6 shadow-md border-t-4 border-navy">
+          <i class="fa-solid fa-hands-praying text-2xl text-navy mb-3" aria-hidden="true"></i>
+          <h3 class="font-extrabold text-navy mb-1">Respect for All</h3>
+          <p class="text-sm text-gray-600 text-justify hyphens-auto">We honour our elders, traditional institutions and every faith and ethnicity across the constituency.</p>
+        </div>
+      </div>
+      <p class="reveal text-xs text-gray-500 mt-6">Aligned with INEC guidelines and the ethics of the All Progressives Congress.</p>
+    </div>
+  </section>
+
+  <!-- ================= 6. VOLUNTEER & MOBILISATION PORTAL ================= -->
+  <section id="volunteer" class="max-w-7xl mx-auto px-4 py-12 md:py-16" aria-labelledby="volunteer-heading">
+    <div class="text-center mb-8 reveal">
+      <p class="text-electric font-bold uppercase tracking-[0.3em] text-sm mb-2">04 &mdash; Volunteer Portal</p>
+      <h2 id="volunteer-heading" class="font-black text-navy uppercase tracking-tight leading-none" style="font-size: clamp(2rem, 6vw, 3.5rem);">Join the Movement</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto mt-4"><span class="text-green font-bold" lang="yo">Ẹ darapọ̀ mọ́ wa</span> — join us. Sign up, pick your ward, and get connected instantly to your ward's mobilisation WhatsApp group.</p>
+      <div class="mx-auto mt-5 h-1.5 w-24 bg-gold rounded-full" aria-hidden="true"></div>
+    </div>
+
+    <div class="max-w-xl mx-auto">
+      <!-- Volunteer form (validated + handled by vanilla JS below) -->
+      <form id="volunteer-form" class="reveal bg-white border border-gray-200 rounded-2xl shadow-xl p-6 md:p-8 space-y-5" novalidate>
+        <div>
+          <label for="fullName" class="block font-bold text-navy mb-1.5">Full Name <span class="text-red-600" aria-hidden="true">*</span></label>
+          <input type="text" id="fullName" name="fullName" autocomplete="name" required
+                 class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-apc focus:border-apc"
+                 placeholder="e.g. Adewale Ogunleye">
+          <p class="error-msg hidden text-red-600 text-sm mt-1" role="alert"></p>
+        </div>
+
+        <div>
+          <label for="whatsapp" class="block font-bold text-navy mb-1.5">WhatsApp Phone Number <span class="text-red-600" aria-hidden="true">*</span></label>
+          <input type="tel" id="whatsapp" name="whatsapp" autocomplete="tel" inputmode="tel" required
+                 class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-apc focus:border-apc"
+                 placeholder="e.g. 0803 123 4567 or +234 803 123 4567">
+          <p class="error-msg hidden text-red-600 text-sm mt-1" role="alert"></p>
+        </div>
+
+        <div>
+          <label for="email" class="block font-bold text-navy mb-1.5">Email Address <span class="text-gray-500 text-sm font-semibold">(optional)</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" inputmode="email"
+                 class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-apc focus:border-apc"
+                 placeholder="e.g. you@example.com">
+          <p class="error-msg hidden text-red-600 text-sm mt-1" role="alert"></p>
+        </div>
+
+        <div>
+          <label for="interest" class="block font-bold text-navy mb-1.5">Area of Interest <span class="text-red-600" aria-hidden="true">*</span></label>
+          <select id="interest" name="interest" required
+                  class="w-full rounded-lg border border-gray-300 px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-apc focus:border-apc">
+            <option value="">— Select an area of interest —</option>
+            <option>Door-to-Door Canvassing</option>
+            <option>Social Media Advocacy</option>
+            <option>Event Logistics</option>
+            <option>Polling Unit Agent</option>
+          </select>
+          <p class="error-msg hidden text-red-600 text-sm mt-1" role="alert"></p>
+        </div>
+
+        <div>
+          <label for="ward" class="block font-bold text-navy mb-1.5">Your Ward (Ado-Odo/Ota — 16 Wards) <span class="text-red-600" aria-hidden="true">*</span></label>
+          <select id="ward" name="ward" required
+                  class="w-full rounded-lg border border-gray-300 px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-apc focus:border-apc">
+            <option value="">— Select your ward —</option>
+            <!-- Options injected by JS from the WARDS list (single source of truth) -->
+          </select>
+          <p class="error-msg hidden text-red-600 text-sm mt-1" role="alert"></p>
+        </div>
+
+        <!-- NDPR / NDPA 2023: explicit, informed consent before collecting personal data -->
+        <div>
+          <label class="flex items-start gap-3">
+            <input type="checkbox" id="consent" name="consent" required
+                   class="mt-1 h-5 w-5 shrink-0 rounded border-gray-300 text-green focus:ring-2 focus:ring-apc">
+            <span class="text-xs text-gray-600 text-justify hyphens-auto">
+              I consent to the Larrybash Campaign Organisation storing my details and contacting me with
+              campaign updates, mobilisation materials and ward group links via WhatsApp/SMS. I understand I
+              may opt out at any time. <button type="button" class="privacy-link text-apc underline hover:text-navy font-semibold">(Nigeria Data Protection Act, 2023)</button>
+            </span>
+          </label>
+          <p class="error-msg hidden text-red-600 text-sm mt-1" role="alert"></p>
+        </div>
+
+        <button type="submit"
+                class="btn-kinetic w-full bg-green hover:bg-navy text-white font-extrabold text-lg py-3.5 rounded-full shadow-lg">
+          <i class="fa-brands fa-whatsapp mr-2" aria-hidden="true"></i>Sign Up &amp; Get My Ward Group Link
+        </button>
+        <p id="form-status" class="hidden text-center font-semibold text-sm text-red-600" role="alert"></p>
+        <p class="text-xs text-gray-500 text-center">Your details are held securely by the campaign and used only for mobilisation. <button type="button" class="privacy-link text-apc underline hover:text-navy">See how we handle your data under the NDPA (2023)</button>.</p>
+      </form>
+
+      <!-- OTP verification step (shown after the code is dispatched) -->
+      <div id="otp-panel" class="hidden bg-white border-2 border-apc rounded-2xl shadow-xl p-6 md:p-8 text-center" role="group" aria-labelledby="otp-heading">
+        <span class="mx-auto mb-4 h-16 w-16 rounded-full bg-apc/10 text-apc flex items-center justify-center text-3xl">
+          <i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i>
+        </span>
+        <h3 id="otp-heading" class="text-2xl font-black text-navy mb-2">Verify Your Number</h3>
+        <p class="text-gray-600 mb-1">We sent a 6-digit code to <strong id="otp-phone" class="text-navy"></strong>.</p>
+        <p id="otp-dev-hint" class="hidden text-xs font-bold text-gold bg-navy rounded-full inline-block px-4 py-1.5 mb-2"></p>
+        <div class="max-w-xs mx-auto mt-4">
+          <label for="otp-input" class="sr-only">6-digit verification code</label>
+          <input type="text" id="otp-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="\d{6}"
+                 class="w-full text-center text-3xl font-black tracking-[0.5em] text-navy rounded-lg border-2 border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-apc focus:border-apc"
+                 placeholder="&bull;&bull;&bull;&bull;&bull;&bull;">
+          <p id="otp-error" class="hidden text-red-600 text-sm mt-2 font-semibold" role="alert"></p>
+        </div>
+        <button id="otp-verify" type="button"
+                class="btn-kinetic mt-5 w-full max-w-xs bg-green hover:bg-navy text-white font-extrabold text-lg py-3.5 rounded-full shadow-lg">
+          <i class="fa-solid fa-user-check mr-2" aria-hidden="true"></i>Verify &amp; Complete Sign-Up
+        </button>
+        <div class="mt-4 flex items-center justify-center gap-5 text-sm font-semibold">
+          <button id="otp-resend" type="button" class="text-apc hover:text-navy underline disabled:text-gray-400 disabled:no-underline">Resend code</button>
+          <button id="otp-back" type="button" class="text-gray-500 hover:text-navy underline">Edit my details</button>
+        </div>
+        <!-- Network-latency fallback: revealed by JS after 45s of waiting for the code -->
+        <a id="otp-fallback" href="https://wa.me/2348000002027" target="_blank" rel="noopener noreferrer"
+           class="hidden mt-4 items-center justify-center gap-2 text-sm font-semibold text-green hover:text-navy">
+          <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>Code not arriving? Contact the Mobilisation Desk on WhatsApp
+        </a>
+      </div>
+
+      <!-- Success state (hidden until valid submission) -->
+      <div id="success-panel" class="hidden bg-white border-2 border-green rounded-2xl shadow-xl p-6 md:p-8 text-center" role="status" aria-live="polite">
+        <span class="mx-auto mb-4 h-16 w-16 rounded-full bg-green/10 text-green flex items-center justify-center text-3xl">
+          <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+        </span>
+        <h3 class="text-2xl font-black text-navy mb-2"><span lang="yo">Ẹ kú iṣẹ́, </span><span id="success-name">Volunteer</span>! <span class="text-green" lang="yo">Ẹ ṣé!</span></h3>
+        <p class="text-gray-600 mb-6">You're now part of the Larrybash 2027 movement in <strong id="success-ward" class="text-navy"></strong>. Tap below to join your ward's WhatsApp mobilisation group:</p>
+        <a id="whatsapp-link" href="#" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-2 bg-green hover:bg-navy text-white font-extrabold px-8 py-3.5 rounded-full text-lg transition-colors shadow-lg mb-4">
+          <i class="fa-brands fa-whatsapp text-2xl" aria-hidden="true"></i>
+          <span id="whatsapp-link-label">Join Ward WhatsApp Group</span>
+        </a>
+        <p class="text-xs text-gray-500 mb-5">(Demo link — replace with the real ward group invite in production.)</p>
+        <button id="reset-form" type="button" class="text-apc hover:text-navy font-semibold underline">
+          <i class="fa-solid fa-user-plus mr-1" aria-hidden="true"></i>Register another volunteer
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 7. MEDIA & NEWS HUB (verified press coverage) ================= -->
+  <section id="media" class="bg-gray-50 border-t border-gray-200" aria-labelledby="media-heading">
+    <div class="max-w-7xl mx-auto px-4 py-12 md:py-16">
+      <div class="mb-8 reveal">
+        <p class="text-electric font-bold uppercase tracking-[0.3em] text-sm mb-2">05 &mdash; Verified Coverage</p>
+        <h2 id="media-heading" class="font-black text-navy uppercase tracking-tight leading-none" style="font-size: clamp(2rem, 6vw, 3.5rem);">Media &amp; News Hub</h2>
+        <div class="mt-4 h-1.5 w-24 bg-gold rounded-full" aria-hidden="true"></div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Card 1: APC primary victory (Blueprint, May 2026) -->
+        <article class="reveal card-lift bg-white rounded-2xl rounded-bl-none shadow-lg overflow-hidden flex flex-col">
+          <div class="h-32 bg-gradient-to-br from-navy to-apc flex items-center justify-center" role="img" aria-label="Primary election victory">
+            <i class="fa-solid fa-square-poll-vertical text-5xl text-gold" aria-hidden="true"></i>
+          </div>
+          <div class="p-6 flex flex-col grow">
+            <p class="text-xs font-bold uppercase tracking-wide text-green mb-2"><i class="fa-solid fa-calendar mr-1" aria-hidden="true"></i>May 17, 2026 &bull; Primary Victory</p>
+            <h3 class="font-extrabold text-navy leading-snug mb-3">Bashorun Emerges APC Consensus Candidate with 17,740 Votes</h3>
+            <p class="text-sm text-gray-600 grow text-justify hyphens-auto">At the Ogun APC primaries, Lanre Bashorun emerged as the consensus candidate for the Ado-Odo/Ota Federal Constituency — a resounding mandate behind the Adele Adoko agenda.</p>
+            <a href="https://blueprint.ng/ogun-abioduns-ex-cos-commissioners-emerge-apc-house-of-representatives-candidates/" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center min-h-[44px] text-apc hover:text-navy font-bold text-sm">Read on Blueprint <i class="fa-solid fa-arrow-up-right-from-square ml-1" aria-hidden="true"></i></a>
+          </div>
+        </article>
+
+        <!-- Card 2: Eid relief & empowerment (Omoh Global News, May 2026) -->
+        <article class="reveal card-lift bg-white rounded-2xl rounded-bl-none shadow-lg overflow-hidden flex flex-col">
+          <div class="h-32 bg-gradient-to-br from-green to-apc flex items-center justify-center" role="img" aria-label="Eid relief and empowerment programme">
+            <i class="fa-solid fa-hand-holding-heart text-5xl text-white" aria-hidden="true"></i>
+          </div>
+          <div class="p-6 flex flex-col grow">
+            <p class="text-xs font-bold uppercase tracking-wide text-green mb-2"><i class="fa-solid fa-calendar mr-1" aria-hidden="true"></i>May 25, 2026 &bull; Humanitarian Outreach</p>
+            <h3 class="font-extrabold text-navy leading-snug mb-3">LARRYBASH Empowers Residents with Eid Relief Across Ado-Odo/Ota</h3>
+            <p class="text-sm text-gray-600 grow text-justify hyphens-auto">Hundreds of bags of rice and millions of naira in cash support reached the elderly, youths and residents at the Larrybash Secretariat, Okede, Ota — "a season of love, sacrifice and sharing."</p>
+            <a href="https://www.omohglobalnews.com/2026/05/larrybash-empowers-residents-with-eid.html" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center min-h-[44px] text-apc hover:text-navy font-bold text-sm">Read on Omoh Global News <i class="fa-solid fa-arrow-up-right-from-square ml-1" aria-hidden="true"></i></a>
+          </div>
+        </article>
+
+        <!-- Card 3: AAMO town hall — traditional rulers & Ogun West equity (NewsHeadline247, Jul 2026) -->
+        <article class="reveal card-lift bg-white rounded-2xl rounded-bl-none shadow-lg overflow-hidden flex flex-col">
+          <div class="h-32 bg-gradient-to-br from-gold to-navy flex items-center justify-center" role="img" aria-label="Traditional rulers' town hall support">
+            <i class="fa-solid fa-crown text-5xl text-white" aria-hidden="true"></i>
+          </div>
+          <div class="p-6 flex flex-col grow">
+            <p class="text-xs font-bold uppercase tracking-wide text-green mb-2"><i class="fa-solid fa-calendar mr-1" aria-hidden="true"></i>July 2026 &bull; Town Hall, Ota</p>
+            <h3 class="font-extrabold text-navy leading-snug mb-3">Traditional Rulers, 1,000+ Residents Rally for Yayi and Ogun West Equity</h3>
+            <p class="text-sm text-gray-600 grow text-justify hyphens-auto">Royal fathers — including HRM Oba Obalanlege — market leaders and youth groups filled the LG secretariat as the AAMO Door-to-Door Movement launched, with Larrybash commending the people-oriented dialogue.</p>
+            <a href="https://newsheadline247.com/aamo-town-hall-yayi-ogun-west-2027-grassroots-support/" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center min-h-[44px] text-apc hover:text-navy font-bold text-sm">Read on NewsHeadline247 <i class="fa-solid fa-arrow-up-right-from-square ml-1" aria-hidden="true"></i></a>
+          </div>
+        </article>
+      </div>
+
+      <!-- ---- On the Ground: filterable campaign gallery ---- -->
+      <div class="mt-12">
+        <h3 class="reveal text-2xl md:text-3xl font-black text-navy uppercase tracking-tight mb-1">On the Ground</h3>
+        <p class="reveal text-sm text-gray-600 mb-5"><span class="text-navy font-bold" lang="yo">Ẹ kú ìpàdé!</span> The movement in motion across Ado-Odo/Ota — filter by theme, tap any photo to enlarge.</p>
+
+        <!-- Theme filters -->
+        <div class="reveal flex flex-wrap gap-2 mb-6" role="group" aria-label="Filter gallery by theme">
+          <button type="button" class="gallery-filter btn-kinetic bg-navy text-white text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-2 min-h-[44px] rounded-full border-2 border-navy" data-filter="all" aria-pressed="true">All Photos</button>
+          <button type="button" class="gallery-filter btn-kinetic bg-white text-navy text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-2 min-h-[44px] rounded-full border-2 border-navy" data-filter="rally" aria-pressed="false">Rallies &amp; Crowds</button>
+          <button type="button" class="gallery-filter btn-kinetic bg-white text-navy text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-2 min-h-[44px] rounded-full border-2 border-navy" data-filter="people" aria-pressed="false">Leadership</button>
+          <button type="button" class="gallery-filter btn-kinetic bg-white text-navy text-xs md:text-sm font-bold uppercase tracking-wide px-4 py-2 min-h-[44px] rounded-full border-2 border-navy" data-filter="trail" aria-pressed="false">Campaign Trail</button>
+        </div>
+
+        <!-- Uniform-ratio tiles; captions sit in a gradient overlay so they read on mobile too -->
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+          <figure class="gallery-figure reveal" data-cat="rally">
+            <button type="button" class="gallery-item group relative block w-full overflow-hidden rounded-2xl rounded-br-none shadow-lg focus:outline-none focus:ring-4 focus:ring-apc"
+                    data-full="assets/g1.jpg" aria-label="Enlarge photo: supporters raise their caps beneath the Ogun West equity banner">
+              <img src="assets/g1.jpg" alt="Supporters in Larrybash Booth Lord shirts raise their caps beneath a banner reading fifty years of marginalisation is enough"
+                   loading="lazy" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105">
+              <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
+                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">Caps in the air as the Ogun West equity call rings out</span>
+              </span>
+            </button>
+          </figure>
+
+          <figure class="gallery-figure reveal" data-cat="people">
+            <button type="button" class="gallery-item group relative block w-full overflow-hidden rounded-2xl rounded-tr-none shadow-lg focus:outline-none focus:ring-4 focus:ring-apc"
+                    data-full="assets/g4.jpg" aria-label="Enlarge photo: Larrybash with APC leaders and the women's wing">
+              <img src="assets/g4.jpg" alt="Larrybash standing with an APC party elder wearing a party sash and women leaders at a community gathering"
+                   loading="lazy" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105">
+              <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
+                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">Shoulder to shoulder with party elders and the women's wing</span>
+              </span>
+            </button>
+          </figure>
+
+          <figure class="gallery-figure reveal" data-cat="trail">
+            <button type="button" class="gallery-item group relative block w-full overflow-hidden rounded-2xl rounded-bl-none shadow-lg focus:outline-none focus:ring-4 focus:ring-apc"
+                    data-full="assets/g2.jpg" aria-label="Enlarge photo: Booth Lords marching through the community">
+              <img src="assets/g2.jpg" alt="Volunteers in Larrybash Booth Lord shirts marching through a community street with caps raised"
+                   loading="lazy" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105">
+              <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
+                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">Street to street, compound to compound — <em>woro si woro, iga si iga</em></span>
+              </span>
+            </button>
+          </figure>
+
+          <figure class="gallery-figure reveal" data-cat="rally">
+            <button type="button" class="gallery-item group relative block w-full overflow-hidden rounded-2xl rounded-tl-none shadow-lg focus:outline-none focus:ring-4 focus:ring-apc"
+                    data-full="assets/g3.jpg" aria-label="Enlarge photo: a packed venue at the ward mobilisation rally">
+              <img src="assets/g3.jpg" alt="A dense crowd of supporters filling the venue at a ward mobilisation rally"
+                   loading="lazy" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105">
+              <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
+                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">A packed ground — the turnout that defines this movement</span>
+              </span>
+            </button>
+          </figure>
+
+          <figure class="gallery-figure reveal" data-cat="people">
+            <button type="button" class="gallery-item group relative block w-full overflow-hidden rounded-2xl rounded-br-none shadow-lg focus:outline-none focus:ring-4 focus:ring-apc"
+                    data-full="assets/g5.jpg" aria-label="Enlarge photo: Larrybash with community elders">
+              <img src="assets/g5.jpg" alt="Larrybash in a campaign cap standing with two community elders in traditional white attire"
+                   loading="lazy" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105">
+              <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
+                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">Counsel first — with community elders and stakeholders</span>
+              </span>
+            </button>
+          </figure>
+
+          <figure class="gallery-figure reveal" data-cat="trail">
+            <button type="button" class="gallery-item group relative block w-full overflow-hidden rounded-2xl rounded-tr-none shadow-lg focus:outline-none focus:ring-4 focus:ring-apc"
+                    data-full="assets/g7.jpg" aria-label="Enlarge photo: arrival welcomed by traditional drummers">
+              <img src="assets/g7.jpg" alt="Dignitaries walking a green carpet flanked by traditional Yoruba drummers at a campaign event"
+                   loading="lazy" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105">
+              <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
+                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">An Awori welcome — received with the talking drums</span>
+              </span>
+            </button>
+          </figure>
+
+          <figure class="gallery-figure reveal" data-cat="rally">
+            <button type="button" class="gallery-item group relative block w-full overflow-hidden rounded-2xl rounded-bl-none shadow-lg focus:outline-none focus:ring-4 focus:ring-apc"
+                    data-full="assets/g9.jpg" aria-label="Enlarge photo: seated Booth Lords at the ward gathering">
+              <img src="assets/g9.jpg" alt="Rows of seated supporters in Larrybash Booth Lord shirts and campaign caps at a ward gathering"
+                   loading="lazy" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105">
+              <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
+                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">The <strong>Booth Lords</strong> — polling-booth champions from all 16 wards</span>
+              </span>
+            </button>
+          </figure>
+
+          <figure class="gallery-figure reveal" data-cat="people">
+            <button type="button" class="gallery-item group relative block w-full overflow-hidden rounded-2xl rounded-tl-none shadow-lg focus:outline-none focus:ring-4 focus:ring-apc"
+                    data-full="assets/g6.jpg" aria-label="Enlarge photo: a campaign speaker addresses supporters">
+              <img src="assets/g6.jpg" alt="A campaign speaker in a Yayi for Governor cap addressing supporters through a microphone"
+                   loading="lazy" class="w-full aspect-[4/3] object-cover object-top transition-transform duration-500 group-hover:scale-105">
+              <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
+                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">Young voices carrying the mandate to the grassroots</span>
+              </span>
+            </button>
+          </figure>
+
+          <figure class="gallery-figure reveal" data-cat="trail">
+            <button type="button" class="gallery-item group relative block w-full overflow-hidden rounded-2xl rounded-br-none shadow-lg focus:outline-none focus:ring-4 focus:ring-apc"
+                    data-full="assets/g8.jpg" aria-label="Enlarge photo: the main stage, The New Path to Greater Opportunities">
+              <img src="assets/g8.jpg" alt="Campaign stage under a banner reading The New Path to Greater Opportunities, flanked by Tinubu, Yayi and Larrybash posters"
+                   loading="lazy" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105">
+              <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent px-3 pb-3 pt-10 text-left">
+                <span class="block text-white text-xs md:text-sm font-semibold leading-snug">On stage: &ldquo;The New Path to Greater Opportunities&rdquo;</span>
+              </span>
+            </button>
+          </figure>
+        </div>
+
+        <p class="reveal text-xs text-gray-500 mt-4">Campaign photography courtesy of the Larrybash Campaign Organization.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox modal for the gallery (populated + toggled by JS) -->
+  <div id="lightbox" class="hidden fixed inset-0 z-[60] bg-navy/90 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Enlarged photo viewer">
+    <button id="lightbox-close" type="button" class="absolute top-4 right-4 h-11 w-11 rounded-full bg-white/15 hover:bg-gold hover:text-navy text-white text-xl flex items-center justify-center" aria-label="Close photo viewer">
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+    <img id="lightbox-img" src="" alt="" class="max-h-[85vh] max-w-full rounded-xl shadow-2xl">
+  </div>
+
+  <!-- Privacy Notice modal (NDPA 2023) — opened from the consent link & footer -->
+  <div id="privacy-modal" class="hidden fixed inset-0 z-[60] bg-navy/90 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
+    <div class="bg-white text-gray-700 rounded-2xl rounded-br-none max-w-lg w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 shadow-2xl">
+      <div class="flex items-start justify-between gap-4 mb-4">
+        <h2 id="privacy-title" class="text-navy font-black text-xl md:text-2xl uppercase tracking-tight">Privacy Notice</h2>
+        <button id="privacy-close" type="button" class="h-10 w-10 shrink-0 rounded-full bg-gray-100 hover:bg-gold hover:text-navy flex items-center justify-center text-lg" aria-label="Close privacy notice">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="space-y-4 text-sm leading-relaxed text-justify hyphens-auto">
+        <p>The <strong class="text-navy">Larrybash Campaign Organisation</strong> (Larrybash Secretariat, Okede, Ota, Ogun State) is the data controller for the information you provide on this site, and is committed to protecting it under the <strong class="text-navy">Nigeria Data Protection Act (NDPA), 2023</strong>.</p>
+        <div>
+          <h3 class="font-extrabold text-navy mb-1">What we collect</h3>
+          <p>Your name, WhatsApp/phone number, ward, area of interest, and (optionally) your email address. Your number is confirmed by a one-time code.</p>
+        </div>
+        <div>
+          <h3 class="font-extrabold text-navy mb-1">Why, and our lawful basis</h3>
+          <p>Solely to send you campaign updates, mobilisation materials and your ward group link. Our lawful basis is <strong class="text-navy">your consent</strong>, which you give by ticking the box — never a pre-ticked default.</p>
+        </div>
+        <div>
+          <h3 class="font-extrabold text-navy mb-1">How we secure it</h3>
+          <p>Data is sent over an encrypted (HTTPS) connection and held in an access-controlled database available only to authorised campaign staff. We never collect card or financial details, and we do not sell your data.</p>
+        </div>
+        <div>
+          <h3 class="font-extrabold text-navy mb-1">Who sees it</h3>
+          <p>Only the campaign's mobilisation and contact-centre team, for the purposes above. It is not shared with third parties for unrelated use, and it is never sold.</p>
+        </div>
+        <div>
+          <h3 class="font-extrabold text-navy mb-1">Who processes it for us</h3>
+          <p>We use trusted service providers who process your data only on our instructions, under data-processing agreements:</p>
+          <ul class="list-disc pl-5 mt-1 space-y-0.5">
+            <li><strong class="text-navy">ContactZero</strong> — our campaign contact-centre platform.</li>
+            <li><strong class="text-navy">Twilio / Meta (WhatsApp)</strong> — delivery of SMS and WhatsApp messages.</li>
+            <li><strong class="text-navy">Supabase</strong> — secure, access-controlled database hosting.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-extrabold text-navy mb-1">How long we keep it</h3>
+          <p>Until the end of the 2027 election cycle or until you opt out — whichever is sooner — after which it is securely deleted.</p>
+        </div>
+        <div>
+          <h3 class="font-extrabold text-navy mb-1">Your rights</h3>
+          <p>You may request access to, correction or deletion of your data, and <strong class="text-navy">withdraw consent (opt out) at any time</strong> — as easily as you gave it. You may also lodge a complaint with the Nigeria Data Protection Commission (NDPC).</p>
+          <p class="mt-2"><button type="button" id="optout-open" class="btn-kinetic inline-flex items-center gap-2 bg-navy hover:bg-green text-white font-bold px-4 py-2 rounded-full rounded-bl-none text-xs"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>Opt out / withdraw consent</button></p>
+        </div>
+        <div>
+          <h3 class="font-extrabold text-navy mb-1">Contact</h3>
+          <p>Data-privacy enquiries: <a href="mailto:privacy@larrybash2027.ng" class="text-apc hover:text-navy underline font-semibold">privacy@larrybash2027.ng</a></p>
+        </div>
+      </div>
+      <button id="privacy-close-2" type="button" class="btn-kinetic mt-6 w-full bg-green hover:bg-navy text-white font-bold py-3 rounded-full">Got it</button>
+    </div>
+  </div>
+
+  <!-- Opt-out / withdraw-consent modal (NDPA 2023) — OTP-verified so only the number's owner can opt out -->
+  <div id="optout-modal" class="hidden fixed inset-0 z-[60] bg-navy/90 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="optout-title">
+    <div class="bg-white text-gray-700 rounded-2xl rounded-br-none max-w-md w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 shadow-2xl">
+      <div class="flex items-start justify-between gap-4 mb-3">
+        <h2 id="optout-title" class="text-navy font-black text-xl uppercase tracking-tight">Opt Out</h2>
+        <button id="optout-close" type="button" class="h-10 w-10 shrink-0 rounded-full bg-gray-100 hover:bg-gold hover:text-navy flex items-center justify-center text-lg" aria-label="Close opt-out">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <!-- Step 1: enter number -->
+      <div id="optout-step1">
+        <p class="text-sm mb-4 text-justify hyphens-auto">Withdraw your consent and stop all campaign messages. Enter your registered WhatsApp number and we'll send a code to confirm it's you.</p>
+        <label for="optout-phone" class="sr-only">Registered WhatsApp number</label>
+        <input id="optout-phone" type="tel" inputmode="tel" autocomplete="tel"
+               class="w-full rounded-lg border-2 border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-apc focus:border-apc"
+               placeholder="e.g. 0803 123 4567">
+        <p id="optout-error1" class="hidden text-red-600 text-sm mt-2 font-semibold" role="alert"></p>
+        <button id="optout-send" type="button" class="btn-kinetic mt-4 w-full bg-navy hover:bg-green text-white font-bold py-3 rounded-full">Send confirmation code</button>
+      </div>
+
+      <!-- Step 2: confirm code -->
+      <div id="optout-step2" class="hidden">
+        <p class="text-sm mb-3">Enter the 6-digit code sent to <strong id="optout-phone-echo" class="text-navy"></strong>.</p>
+        <p id="optout-dev" class="hidden text-xs font-bold text-gold bg-navy rounded-full inline-block px-4 py-1.5 mb-2"></p>
+        <label for="optout-otp" class="sr-only">Confirmation code</label>
+        <input id="optout-otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="\d{6}"
+               class="w-full text-center text-2xl font-black tracking-[0.4em] text-navy rounded-lg border-2 border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-apc focus:border-apc"
+               placeholder="&bull;&bull;&bull;&bull;&bull;&bull;">
+        <p id="optout-error2" class="hidden text-red-600 text-sm mt-2 font-semibold" role="alert"></p>
+        <button id="optout-confirm" type="button" class="btn-kinetic mt-4 w-full bg-red-600 hover:bg-navy text-white font-bold py-3 rounded-full">Confirm opt-out</button>
+      </div>
+
+      <!-- Success -->
+      <div id="optout-success" class="hidden text-center py-4">
+        <span class="mx-auto mb-3 h-14 w-14 rounded-full bg-green/10 text-green flex items-center justify-center text-2xl"><i class="fa-solid fa-circle-check" aria-hidden="true"></i></span>
+        <p class="font-extrabold text-navy">You've been opted out.</p>
+        <p class="text-sm mt-1 text-gray-600">You will no longer receive campaign messages from us. You're always welcome to re-join later via the volunteer form.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Persistent quick-action: WhatsApp the campaign desk (bottom-right, below modals) -->
+  <a href="https://wa.me/2348000002027?text=Hello%20Larrybash%20Campaign%20Desk" target="_blank" rel="noopener noreferrer"
+     aria-label="Chat with the campaign desk on WhatsApp"
+     class="fixed bottom-5 right-5 z-40 flex items-center gap-2 bg-green hover:bg-navy text-white font-bold pl-4 pr-5 py-3 rounded-full rounded-br-none shadow-2xl transition-colors">
+    <i class="fa-brands fa-whatsapp text-2xl" aria-hidden="true"></i>
+    <span class="hidden sm:inline text-sm">Chat with the Campaign Desk</span>
+  </a>
+
+  <!-- ================= 7b. CAMPAIGN LINE CONTACT CENTER ================= -->
+  <section id="contact" class="bg-navy text-white border-t-4 border-gold" aria-labelledby="contact-heading">
+    <div class="max-w-7xl mx-auto px-4 py-12 md:py-16">
+      <div class="text-center mb-8 reveal">
+        <p class="text-electric font-bold uppercase tracking-[0.3em] text-sm mb-2">06 &mdash; Talk to Us</p>
+        <h2 id="contact-heading" class="font-black uppercase tracking-tight leading-none" style="font-size: clamp(2rem, 6vw, 3.5rem);">Campaign Line Contact Centre</h2>
+        <p class="text-blue-100 max-w-2xl mx-auto mt-3"><span class="text-gold font-bold" lang="yo">Ẹ bá wa sọ̀rọ̀</span> — talk to us. Every call, message and visit gets a response. Lines open Monday–Saturday, 8:00 AM – 6:00 PM.</p>
+        <div class="mx-auto mt-4 h-1.5 w-24 bg-gold rounded-full" aria-hidden="true"></div>
+      </div>
+
+      <!-- NOTE: the numbers/email below are campaign placeholders — swap for the
+           official lines before going live (search: 0700-LARRYBASH). -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <a href="tel:+2347005277922" class="reveal card-lift bg-white/10 hover:bg-white/20 rounded-2xl rounded-tl-none p-6 text-center transition-colors">
+          <span class="mx-auto mb-3 h-12 w-12 rounded-full bg-green flex items-center justify-center text-xl"><i class="fa-solid fa-phone-volume" aria-hidden="true"></i></span>
+          <h3 class="font-extrabold mb-1">Campaign Hotline</h3>
+          <p class="text-gold font-bold">0700-LARRYBASH</p>
+          <p class="text-xs text-blue-200 mt-1">Tap to call</p>
+        </a>
+        <a href="https://wa.me/2348000002027" target="_blank" rel="noopener noreferrer" class="reveal card-lift bg-white/10 hover:bg-white/20 rounded-2xl rounded-tl-none p-6 text-center transition-colors">
+          <span class="mx-auto mb-3 h-12 w-12 rounded-full bg-green flex items-center justify-center text-xl"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span>
+          <h3 class="font-extrabold mb-1">WhatsApp Line</h3>
+          <p class="text-gold font-bold">0800 000 2027</p>
+          <p class="text-xs text-blue-200 mt-1">Chat with the mobilisation desk</p>
+        </a>
+        <a href="mailto:info@larrybash2027.ng" class="reveal card-lift bg-white/10 hover:bg-white/20 rounded-2xl rounded-tl-none p-6 text-center transition-colors">
+          <span class="mx-auto mb-3 h-12 w-12 rounded-full bg-green flex items-center justify-center text-xl"><i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i></span>
+          <h3 class="font-extrabold mb-1">Email the Team</h3>
+          <p class="text-gold font-bold break-all">info@larrybash2027.ng</p>
+          <p class="text-xs text-blue-200 mt-1">Media &amp; volunteer enquiries</p>
+        </a>
+        <!-- Social-media engagement channel — deliberately NOT a second WhatsApp card.
+             Links to the primary handle; swap URLs/handle for the real accounts at launch. -->
+        <a href="https://www.facebook.com/larrybash2027" target="_blank" rel="noopener noreferrer" class="reveal card-lift bg-white/10 hover:bg-white/20 rounded-2xl rounded-tl-none p-6 text-center transition-colors">
+          <span class="mx-auto mb-3 h-12 w-12 rounded-full bg-green flex items-center justify-center text-xl"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i></span>
+          <h3 class="font-extrabold mb-1">Social Media</h3>
+          <p class="text-gold font-bold">@Larrybash2027</p>
+          <p class="text-xs text-blue-200 mt-1">Follow on Facebook, Instagram &amp; X</p>
+        </a>
+      </div>
+
+      <!-- ---- Secretariat map ----
+           Click-to-load facade: the embed is fetched only when a visitor asks for it,
+           so the map never touches the initial page weight on 3G.
+           NOTE: bbox/marker are centred on Ota town (6.6833, 3.6833). Replace both with
+           the secretariat's surveyed GPS coordinates — update data-map-src and the
+           "Larger Map" href only. -->
+      <div id="secretariat-map" class="reveal mt-5 glass-card rounded-3xl rounded-bl-none overflow-hidden scroll-mt-24">
+        <div class="grid md:grid-cols-5">
+          <div class="md:col-span-2 p-6 md:p-8 flex flex-col justify-center">
+            <p class="text-gold font-bold uppercase tracking-[0.25em] text-xs mb-2">Find Us</p>
+            <h3 class="font-extrabold text-xl md:text-2xl uppercase tracking-tight mb-3">Larrybash Campaign Secretariat</h3>
+            <p class="text-blue-100 text-sm leading-relaxed mb-3">
+              Okede, Ota &bull; Ado-Odo/Ota LGA<br>Ogun State, Nigeria
+            </p>
+            <p class="text-xs text-blue-200 mb-5 text-justify hyphens-auto">
+              Walk in Monday&ndash;Saturday, 8:00 AM &ndash; 6:00 PM to volunteer, collect campaign
+              materials, or meet your ward coordinator.
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Larrybash%20Campaign%20Secretariat%2C%20Okede%2C%20Ota%2C%20Ogun%20State%2C%20Nigeria"
+                 target="_blank" rel="noopener noreferrer"
+                 class="btn-kinetic inline-flex items-center gap-2 bg-green hover:bg-gold hover:text-navy text-white font-bold px-5 py-3 rounded-full text-sm">
+                <i class="fa-solid fa-diamond-turn-right" aria-hidden="true"></i>Get Directions
+              </a>
+              <a href="https://www.openstreetmap.org/?mlat=6.6833&amp;mlon=3.6833#map=14/6.6833/3.6833"
+                 target="_blank" rel="noopener noreferrer"
+                 class="btn-kinetic inline-flex items-center gap-2 border-2 border-apc text-apc hover:bg-apc hover:text-navy font-bold px-5 py-3 rounded-full text-sm">
+                <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i>Larger Map
+              </a>
+            </div>
+          </div>
+
+          <div id="map-holder" class="md:col-span-3 relative min-h-[280px] md:min-h-[340px]">
+            <button id="map-load" type="button"
+                    data-map-src="https://www.openstreetmap.org/export/embed.html?bbox=3.6633%2C6.6633%2C3.7033%2C6.7033&amp;layer=mapnik&amp;marker=6.6833%2C3.6833"
+                    class="map-facade group absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center px-6 focus:outline-none focus:ring-4 focus:ring-inset focus:ring-apc">
+              <span class="h-14 w-14 rounded-full bg-green text-white flex items-center justify-center text-2xl shadow-lg mb-3 transition-transform group-hover:scale-110">
+                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+              </span>
+              <span class="block text-white font-extrabold uppercase tracking-tight">Tap to load the map</span>
+              <span class="block text-blue-200 text-xs mt-1 max-w-xs">Kept off by default so the page stays fast on mobile data</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= 8. FOOTER ================= -->
+<footer id="footer" class="bg-navy text-blue-100 border-t border-white/10" role="contentinfo">
+  <div class="max-w-7xl mx-auto px-4 py-10 grid gap-8 md:grid-cols-3">
+    <!-- HQ -->
+    <div>
+      <h3 class="text-white font-extrabold text-lg mb-3 flex items-center gap-2">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gold text-navy font-black" aria-hidden="true">L</span>
+        Larrybash 2027
+        <a href="https://apc.com.ng" target="_blank" rel="noopener noreferrer" aria-label="APC official website" class="inline-flex p-2 -m-2">
+          <img src="assets/apc-logo.svg?v=3" alt="APC" width="32" height="28" style="width:32px;height:28px;max-width:none" class="rounded-sm">
+        </a>
+      </h3>
+      <p class="text-sm leading-relaxed mb-4">
+        <i class="fa-solid fa-location-dot text-gold mr-2" aria-hidden="true"></i>
+        Campaign Headquarters:<br>Larrybash Secretariat, Okede, Ota, Ogun State, Nigeria.
+      </p>
+      <!-- Countdown to the 2027 general election — a proven engagement device on
+           successful campaign sites; computed live in JS from ELECTION_DATE. -->
+      <div class="bg-white/5 border border-white/10 rounded-xl rounded-bl-none p-3">
+        <p class="text-[0.7rem] uppercase tracking-widest text-blue-200 mb-1">Countdown &mdash; House of Reps Poll, Sat 16 Jan 2027</p>
+        <div id="election-countdown" class="flex gap-3 text-white" aria-live="off">
+          <div class="text-center"><span data-cd="days" class="block text-2xl font-black text-gold leading-none">—</span><span class="text-[0.6rem] uppercase tracking-wider text-blue-200">Days</span></div>
+          <div class="text-center"><span data-cd="hours" class="block text-2xl font-black leading-none">—</span><span class="text-[0.6rem] uppercase tracking-wider text-blue-200">Hrs</span></div>
+          <div class="text-center"><span data-cd="mins" class="block text-2xl font-black leading-none">—</span><span class="text-[0.6rem] uppercase tracking-wider text-blue-200">Min</span></div>
+          <div class="text-center"><span data-cd="secs" class="block text-2xl font-black leading-none">—</span><span class="text-[0.6rem] uppercase tracking-wider text-blue-200">Sec</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick links + INEC -->
+    <div>
+      <h3 class="text-white font-extrabold text-lg mb-3">Quick Links</h3>
+      <ul class="space-y-2 text-sm">
+        <li><a href="#constituency" class="nav-link hover:text-gold inline-flex items-center min-h-[40px]"><i class="fa-solid fa-angle-right mr-2 text-gold" aria-hidden="true"></i>The Constituency</a></li>
+        <li><a href="#manifesto" class="nav-link hover:text-gold inline-flex items-center min-h-[40px]"><i class="fa-solid fa-angle-right mr-2 text-gold" aria-hidden="true"></i>The Adele Adoko Agenda</a></li>
+        <li><a href="#integrity" class="nav-link hover:text-gold inline-flex items-center min-h-[40px]"><i class="fa-solid fa-angle-right mr-2 text-gold" aria-hidden="true"></i>Our Commitment</a></li>
+        <li><a href="#volunteer" class="nav-link hover:text-gold inline-flex items-center min-h-[40px]"><i class="fa-solid fa-angle-right mr-2 text-gold" aria-hidden="true"></i>Volunteer Portal</a></li>
+        <li><a href="#media" class="nav-link hover:text-gold inline-flex items-center min-h-[40px]"><i class="fa-solid fa-angle-right mr-2 text-gold" aria-hidden="true"></i>Media &amp; News</a></li>
+        <li><a href="https://voiceofawori.com.ng/" target="_blank" rel="noopener noreferrer" class="hover:text-gold inline-flex items-center min-h-[40px]"><i class="fa-solid fa-angle-right mr-2 text-gold" aria-hidden="true"></i>Voice of Awori — Community News</a></li>
+        <li><button type="button" id="privacy-open-footer" class="hover:text-gold inline-flex items-center min-h-[40px] text-left"><i class="fa-solid fa-angle-right mr-2 text-gold" aria-hidden="true"></i>Privacy Notice (NDPA 2023)</button></li>
+        <li><button type="button" id="optout-open-footer" class="hover:text-gold inline-flex items-center min-h-[40px] text-left"><i class="fa-solid fa-angle-right mr-2 text-gold" aria-hidden="true"></i>Opt out / withdraw consent</button></li>
+        <li>
+          <a href="https://cvr.inecnigeria.org" target="_blank" rel="noopener noreferrer" class="inline-flex items-center min-h-[44px] mt-2 bg-green hover:bg-gold hover:text-navy text-white font-bold px-4 py-2 rounded-full transition-colors">
+            <i class="fa-solid fa-id-card mr-2" aria-hidden="true"></i>Register to Vote — INEC Portal
+          </a>
+        </li>
+        <li>
+          <a href="https://registration.apc.com.ng" target="_blank" rel="noopener noreferrer" class="inline-flex items-center min-h-[44px] mt-1 border-2 border-gold text-gold hover:bg-gold hover:text-navy font-bold px-4 py-2 rounded-full transition-colors">
+            <i class="fa-solid fa-broom mr-2" aria-hidden="true"></i>Join the APC — Membership Portal
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Socials -->
+    <div>
+      <h3 class="text-white font-extrabold text-lg mb-3">Follow the Movement</h3>
+      <div class="flex gap-3">
+        <a href="#" aria-label="Facebook" class="h-11 w-11 rounded-full bg-white/10 hover:bg-gold hover:text-navy flex items-center justify-center text-xl transition-colors"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+        <a href="#" aria-label="Instagram" class="h-11 w-11 rounded-full bg-white/10 hover:bg-gold hover:text-navy flex items-center justify-center text-xl transition-colors"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+        <a href="#" aria-label="X (Twitter)" class="h-11 w-11 rounded-full bg-white/10 hover:bg-gold hover:text-navy flex items-center justify-center text-xl transition-colors"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a>
+      </div>
+      <p class="text-xs mt-5 text-blue-200">#Larrybash2027 &bull; #AdeleAdoko &bull; #APCAllTheWay</p>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 py-5 text-center text-xs text-blue-200">
+      <p class="text-gold font-bold mb-2" lang="yo">Ẹ ṣé púpọ̀, Àdó-Òdò/Ọ̀tà. <span class="text-blue-200 font-medium" lang="en">Thank you, Ado-Odo/Ota.</span></p>
+      <p>
+        &copy; 2026 LarryBash Campaign. All rights reserved. Designed and Managed By
+        <a href="https://www.linkedin.com/company/velasynq-technologies-limited/home/" target="_blank" rel="noopener noreferrer"
+           class="inline-block py-3 -my-3 font-semibold text-white hover:text-gold underline decoration-gold/60 underline-offset-2">VelaSynq Technologies</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= VANILLA JAVASCRIPT ================= -->
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- 16 Wards of Ado-Odo/Ota (single source of truth) ----------
+     Ward names follow the official Ado-Odo/Ota Local Government list
+     (adoodootalg.org.ng). Each ward maps to a dummy WhatsApp group invite
+     code — replace with real chat.whatsapp.com codes in production. */
+  var WARDS = [
+    { name: 'Ota 1',      code: 'LB2027OtaOne0001' },
+    { name: 'Ota 2',      code: 'LB2027OtaTwo0002' },
+    { name: 'Ota 3',      code: 'LB2027OtaThree03' },
+    { name: 'Sango',      code: 'LB2027Sango00004' },
+    { name: 'Ijoko',      code: 'LB2027Ijoko00005' },
+    { name: 'Atan',       code: 'LB2027Atan000006' },
+    { name: 'Iju',        code: 'LB2027Iju0000007' },
+    { name: 'Ilogbo',     code: 'LB2027Ilogbo0008' },
+    { name: 'Ado-Odo 1',  code: 'LB2027AdoOdo1009' },
+    { name: 'Ado-Odo 2',  code: 'LB2027AdoOdo2010' },
+    { name: 'Ere',        code: 'LB2027Ere0000011' },
+    { name: 'Alapoti',    code: 'LB2027Alapoti012' },
+    { name: 'Igbesa',     code: 'LB2027Igbesa0013' },
+    { name: 'Agbara 1',   code: 'LB2027Agbara1014' },
+    { name: 'Agbara 2',   code: 'LB2027Agbara2015' },
+    { name: 'Ketu',       code: 'LB2027Ketu000016' }
+  ];
+
+  /* ---------- Populate ward <select> from WARDS ---------- */
+  var wardSelect = document.getElementById('ward');
+  WARDS.forEach(function (ward) {
+    var opt = document.createElement('option');
+    opt.value = ward.name;
+    opt.textContent = ward.name;
+    wardSelect.appendChild(opt);
+  });
+
+  /* ---------- Mobile menu toggle ---------- */
+  var menuBtn = document.getElementById('menu-btn');
+  var mobileMenu = document.getElementById('mobile-menu');
+  menuBtn.addEventListener('click', function () {
+    var isOpen = !mobileMenu.classList.toggle('hidden');
+    menuBtn.setAttribute('aria-expanded', String(isOpen));
+    menuBtn.querySelector('i').className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+  });
+
+  /* ---------- Smooth scrolling for all in-page nav links ----------
+     (offset-aware: accounts for the sticky header height) */
+  var header = document.getElementById('site-header');
+  document.querySelectorAll('a.nav-link[href^="#"]').forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      var target = document.querySelector(link.getAttribute('href'));
+      if (!target) { return; }
+      event.preventDefault();
+      var top = target.getBoundingClientRect().top + window.pageYOffset - header.offsetHeight - 8;
+      window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+      /* Close the mobile menu after navigating */
+      if (!mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.querySelector('i').className = 'fa-solid fa-bars';
+      }
+    });
+  });
+
+  /* ---------- Reveal-on-scroll animation ---------- */
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); });
+  }
+
+  /* ---------- Scroll progress bar ---------- */
+  var progressBar = document.getElementById('scroll-progress');
+  var progressTicking = false;
+  window.addEventListener('scroll', function () {
+    if (progressTicking) { return; }
+    progressTicking = true;
+    requestAnimationFrame(function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (max > 0 ? (window.pageYOffset / max) * 100 : 0) + '%';
+      progressTicking = false;
+    });
+  }, { passive: true });
+
+  /* ---------- Animated count-up stats (respects reduced motion) ---------- */
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function runCountup(el) {
+    var target = parseInt(el.getAttribute('data-target'), 10);
+    if (reducedMotion) { el.textContent = target.toLocaleString(); return; }
+    var duration = 1400;
+    var start = null;
+    function step(ts) {
+      if (!start) { start = ts; }
+      var progress = Math.min((ts - start) / duration, 1);
+      /* easeOutCubic for a satisfying deceleration */
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(target * eased).toLocaleString();
+      if (progress < 1) { requestAnimationFrame(step); }
+    }
+    requestAnimationFrame(step);
+  }
+  if ('IntersectionObserver' in window) {
+    var countObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          runCountup(entry.target);
+          countObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('.countup').forEach(function (el) { countObserver.observe(el); });
+  } else {
+    document.querySelectorAll('.countup').forEach(function (el) {
+      el.textContent = parseInt(el.getAttribute('data-target'), 10).toLocaleString();
+    });
+  }
+
+  /* ---------- Gallery lightbox (click to enlarge, Esc/backdrop/button to close) ---------- */
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = document.getElementById('lightbox-img');
+  var lightboxClose = document.getElementById('lightbox-close');
+  var lightboxTrigger = null; /* element to restore focus to on close */
+  document.querySelectorAll('.gallery-item').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      lightboxTrigger = btn;
+      lightboxImg.src = btn.getAttribute('data-full');
+      lightboxImg.alt = btn.querySelector('img').alt;
+      lightbox.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      lightboxClose.focus(); /* move focus into the dialog */
+    });
+  });
+  function closeLightbox() {
+    lightbox.classList.add('hidden');
+    lightboxImg.src = '';
+    document.body.style.overflow = '';
+    if (lightboxTrigger) { lightboxTrigger.focus(); lightboxTrigger = null; } /* restore focus */
+  }
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', function (e) { if (e.target === lightbox) { closeLightbox(); } });
+  document.addEventListener('keydown', function (e) {
+    if (lightbox.classList.contains('hidden')) { return; }
+    if (e.key === 'Escape') { closeLightbox(); }
+    /* Focus trap: the close button is the only focusable control, so keep focus on it */
+    if (e.key === 'Tab') { e.preventDefault(); lightboxClose.focus(); }
+  });
+
+  /* ---------- Secretariat map: fetch the embed only when asked ---------- */
+  var mapLoadBtn = document.getElementById('map-load');
+  if (mapLoadBtn) {
+    mapLoadBtn.addEventListener('click', function () {
+      var frame = document.createElement('iframe');
+      frame.src = mapLoadBtn.getAttribute('data-map-src');
+      frame.title = 'Map of Ota, Ado-Odo/Ota — location of the Larrybash Campaign Secretariat';
+      frame.loading = 'lazy';
+      frame.referrerPolicy = 'no-referrer-when-downgrade';
+      frame.className = 'absolute inset-0 w-full h-full border-0';
+      document.getElementById('map-holder').appendChild(frame);
+      mapLoadBtn.remove();
+    });
+  }
+
+  /* ---------- Election countdown (footer) ----------
+     National Assembly elections — including the House of Representatives contest
+     for Ado-Odo/Ota Federal Constituency — hold Saturday, 16 January 2027.
+     Polls open 08:30 WAT (+01:00). */
+  var ELECTION_DATE = new Date('2027-01-16T08:30:00+01:00');
+  var cdRoot = document.getElementById('election-countdown');
+  if (cdRoot) {
+    var cdEls = {
+      days: cdRoot.querySelector('[data-cd="days"]'),
+      hours: cdRoot.querySelector('[data-cd="hours"]'),
+      mins: cdRoot.querySelector('[data-cd="mins"]'),
+      secs: cdRoot.querySelector('[data-cd="secs"]'),
+    };
+    var pad = function (n) { return String(n).padStart(2, '0'); };
+    var tickCountdown = function () {
+      var diff = ELECTION_DATE.getTime() - Date.now();
+      if (diff <= 0) {
+        cdRoot.innerHTML = '<p class="text-gold font-black uppercase tracking-wide">Today is the day — go out and vote!</p>';
+        clearInterval(cdTimer);
+        return;
+      }
+      var s = Math.floor(diff / 1000);
+      cdEls.days.textContent = Math.floor(s / 86400);
+      cdEls.hours.textContent = pad(Math.floor((s % 86400) / 3600));
+      cdEls.mins.textContent = pad(Math.floor((s % 3600) / 60));
+      cdEls.secs.textContent = pad(s % 60);
+    };
+    tickCountdown();
+    var cdTimer = setInterval(tickCountdown, 1000);
+  }
+
+  /* ---------- Gallery theme filters ---------- */
+  var filterBtns = document.querySelectorAll('.gallery-filter');
+  var galleryFigures = document.querySelectorAll('.gallery-figure');
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var filter = btn.getAttribute('data-filter');
+      filterBtns.forEach(function (other) {
+        var active = other === btn;
+        other.classList.toggle('bg-navy', active);
+        other.classList.toggle('text-white', active);
+        other.classList.toggle('bg-white', !active);
+        other.classList.toggle('text-navy', !active);
+        other.setAttribute('aria-pressed', String(active));
+      });
+      galleryFigures.forEach(function (fig) {
+        var show = filter === 'all' || fig.getAttribute('data-cat') === filter;
+        fig.classList.toggle('hidden', !show);
+      });
+    });
+  });
+
+  /* ---------- Privacy Notice modal (open from consent link + footer, focus-trapped) ---------- */
+  var privacyModal = document.getElementById('privacy-modal');
+  var privacyTrigger = null;
+  function openPrivacy(trigger) {
+    privacyTrigger = trigger || null;
+    privacyModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('privacy-close').focus();
+  }
+  function closePrivacy() {
+    privacyModal.classList.add('hidden');
+    document.body.style.overflow = '';
+    if (privacyTrigger) { privacyTrigger.focus(); privacyTrigger = null; }
+  }
+  /* Wire every Privacy Notice trigger: the two in-form links (.privacy-link,
+     one nested in the consent label) and the footer link. stopPropagation keeps
+     the in-label link from toggling the consent checkbox. */
+  document.querySelectorAll('.privacy-link, #privacy-open-footer').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); openPrivacy(el); });
+  });
+  document.getElementById('privacy-close').addEventListener('click', closePrivacy);
+  document.getElementById('privacy-close-2').addEventListener('click', closePrivacy);
+  privacyModal.addEventListener('click', function (e) { if (e.target === privacyModal) { closePrivacy(); } });
+  document.addEventListener('keydown', function (e) {
+    if (privacyModal.classList.contains('hidden')) { return; }
+    if (e.key === 'Escape') { closePrivacy(); return; }
+    if (e.key === 'Tab') {
+      /* Trap focus among the modal's focusable controls */
+      var f = privacyModal.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])');
+      if (!f.length) { return; }
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  /* ---------- Opt-out / withdraw-consent modal (OTP-verified) ---------- */
+  var optoutModal = document.getElementById('optout-modal');
+  var optoutTrigger = null;
+  var OPTOUT_API = '';
+  function resetOptout() {
+    document.getElementById('optout-step1').classList.remove('hidden');
+    document.getElementById('optout-step2').classList.add('hidden');
+    document.getElementById('optout-success').classList.add('hidden');
+    document.getElementById('optout-phone').value = '';
+    document.getElementById('optout-otp').value = '';
+    document.getElementById('optout-error1').classList.add('hidden');
+    document.getElementById('optout-error2').classList.add('hidden');
+    document.getElementById('optout-dev').classList.add('hidden');
+  }
+  function openOptout(trigger) {
+    optoutTrigger = trigger || null;
+    resetOptout();
+    optoutModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('optout-close').focus();
+  }
+  function closeOptout() {
+    optoutModal.classList.add('hidden');
+    document.body.style.overflow = '';
+    if (optoutTrigger) { optoutTrigger.focus(); optoutTrigger = null; }
+  }
+  ['optout-open', 'optout-open-footer'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) { el.addEventListener('click', function () { openOptout(el); }); }
+  });
+  document.getElementById('optout-close').addEventListener('click', closeOptout);
+  optoutModal.addEventListener('click', function (e) { if (e.target === optoutModal) { closeOptout(); } });
+  document.addEventListener('keydown', function (e) {
+    if (optoutModal.classList.contains('hidden')) { return; }
+    if (e.key === 'Escape') { closeOptout(); return; }
+    if (e.key === 'Tab') {
+      var f = optoutModal.querySelectorAll('button, input, a[href]');
+      f = [].filter.call(f, function (el) { return el.offsetParent !== null; });
+      if (!f.length) { return; }
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  var optoutSendBtn = document.getElementById('optout-send');
+  optoutSendBtn.addEventListener('click', function () {
+    var err = document.getElementById('optout-error1');
+    err.classList.add('hidden');
+    var phone = document.getElementById('optout-phone').value.trim();
+    optoutSendBtn.disabled = true;
+    var orig = optoutSendBtn.innerHTML;
+    optoutSendBtn.innerHTML = 'Sending…';
+    fetch(OPTOUT_API + '/api/optout/request-otp', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone_number: phone })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { status: r.status, data: d }; }); })
+      .then(function (res) {
+        if (res.status === 200 && res.data.ok) {
+          document.getElementById('optout-phone-echo').textContent = res.data.phone_number;
+          var dev = document.getElementById('optout-dev');
+          if (res.data.dev_otp) { dev.textContent = 'DEV MODE — your code: ' + res.data.dev_otp; dev.classList.remove('hidden'); }
+          document.getElementById('optout-step1').classList.add('hidden');
+          document.getElementById('optout-step2').classList.remove('hidden');
+          document.getElementById('optout-otp').focus();
+        } else {
+          err.textContent = res.data.error || 'Something went wrong. Please try again.';
+          err.classList.remove('hidden');
+        }
+      })
+      .catch(function () { err.textContent = 'Network error — please try again.'; err.classList.remove('hidden'); })
+      .then(function () { optoutSendBtn.disabled = false; optoutSendBtn.innerHTML = orig; });
+  });
+
+  var optoutConfirmBtn = document.getElementById('optout-confirm');
+  optoutConfirmBtn.addEventListener('click', function () {
+    var err = document.getElementById('optout-error2');
+    err.classList.add('hidden');
+    var code = document.getElementById('optout-otp').value.replace(/\D/g, '');
+    if (code.length !== 6) { err.textContent = 'Enter the 6-digit code.'; err.classList.remove('hidden'); return; }
+    optoutConfirmBtn.disabled = true;
+    var orig = optoutConfirmBtn.innerHTML;
+    optoutConfirmBtn.innerHTML = 'Confirming…';
+    fetch(OPTOUT_API + '/api/optout', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone_number: document.getElementById('optout-phone-echo').textContent, otp: code })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { status: r.status, data: d }; }); })
+      .then(function (res) {
+        if (res.status === 200 && res.data.ok) {
+          document.getElementById('optout-step2').classList.add('hidden');
+          document.getElementById('optout-success').classList.remove('hidden');
+        } else {
+          err.textContent = res.data.error || 'Verification failed. Please try again.';
+          err.classList.remove('hidden');
+        }
+      })
+      .catch(function () { err.textContent = 'Network error — please try again.'; err.classList.remove('hidden'); })
+      .then(function () { optoutConfirmBtn.disabled = false; optoutConfirmBtn.innerHTML = orig; });
+  });
+
+  /* ---------- Volunteer form: validation + OTP verification + WhatsApp link ---------- */
+  var form = document.getElementById('volunteer-form');
+  var successPanel = document.getElementById('success-panel');
+  var API_BASE = '';
+  var statusEl = document.getElementById('form-status');
+  var submitBtn = form.querySelector('button[type="submit"]');
+  var originalBtnHtml = submitBtn.innerHTML;
+  var nameInput = document.getElementById('fullName');
+  var phoneInput = document.getElementById('whatsapp');
+  var emailInput = document.getElementById('email');
+  var interestInput = document.getElementById('interest');
+  var consentInput = document.getElementById('consent');
+  var pendingPayload = null; /* held between the OTP request and verification */
+
+  function buildPayload() {
+    return {
+      full_name: nameInput.value.trim(),
+      phone_number: phoneInput.value.trim(),
+      email: emailInput.value.trim(),
+      ward: wardSelect.value,
+      interest_area: interestInput.value,
+      consent: consentInput.checked
+    };
+  }
+
+  /* Consent lives in a wrapper div (checkbox sits in a <label>), so it needs
+     its own error helper rather than the input-parent lookup setError uses. */
+  function setConsentError(message) {
+    var msgEl = consentInput.closest('div').querySelector('.error-msg');
+    if (message) { msgEl.textContent = message; msgEl.classList.remove('hidden'); }
+    else { msgEl.textContent = ''; msgEl.classList.add('hidden'); }
+  }
+
+  function showStatus(message) {
+    statusEl.textContent = message;
+    statusEl.classList.remove('hidden');
+  }
+
+  function showSuccess(wardName, inviteUrl) {
+    document.getElementById('success-name').textContent = nameInput.value.trim().split(/\s+/)[0];
+    document.getElementById('success-ward').textContent = wardName + ' Ward';
+    var linkEl = document.getElementById('whatsapp-link');
+    linkEl.href = inviteUrl;
+    document.getElementById('whatsapp-link-label').textContent = 'Join ' + wardName + ' Ward Group';
+    form.classList.add('hidden');
+    successPanel.classList.remove('hidden');
+    successPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* Accepts Nigerian formats: 08031234567, +2348031234567, 234 803 123 4567 */
+  var PHONE_RE = /^(\+?234|0)[\s-]?[789][01][\s-]?\d{4}[\s-]?\d{4}$/;
+
+  function setError(input, message) {
+    var msgEl = input.parentElement.querySelector('.error-msg');
+    if (message) {
+      msgEl.textContent = message;
+      msgEl.classList.remove('hidden');
+      input.classList.add('border-red-500');
+      input.setAttribute('aria-invalid', 'true');
+    } else {
+      msgEl.textContent = '';
+      msgEl.classList.add('hidden');
+      input.classList.remove('border-red-500');
+      input.removeAttribute('aria-invalid');
+    }
+  }
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    var valid = true;
+
+    /* Full name: at least two characters */
+    if (nameInput.value.trim().length < 2) {
+      setError(nameInput, 'Please enter your full name.');
+      valid = false;
+    } else { setError(nameInput, null); }
+
+    /* WhatsApp number: Nigerian mobile format */
+    var cleaned = phoneInput.value.replace(/[\s-]/g, '');
+    if (!PHONE_RE.test(cleaned)) {
+      setError(phoneInput, 'Enter a valid Nigerian WhatsApp number, e.g. 0803 123 4567.');
+      valid = false;
+    } else { setError(phoneInput, null); }
+
+    /* Email (optional — validated only when provided) */
+    var emailVal = emailInput.value.trim();
+    if (emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailVal)) {
+      setError(emailInput, 'Enter a valid email address, or leave it blank.');
+      valid = false;
+    } else { setError(emailInput, null); }
+
+    /* Area of interest */
+    if (!interestInput.value) {
+      setError(interestInput, 'Please choose an area of interest.');
+      valid = false;
+    } else { setError(interestInput, null); }
+
+    /* Ward */
+    if (!wardSelect.value) {
+      setError(wardSelect, 'Please select your ward.');
+      valid = false;
+    } else { setError(wardSelect, null); }
+
+    /* NDPR / NDPA consent — mandatory before any personal data is submitted */
+    if (!consentInput.checked) {
+      setConsentError('Please tick the box to consent before signing up.');
+      valid = false;
+    } else { setConsentError(null); }
+
+    if (!valid) {
+      /* Bring the first error into view — mobile users may not see errors below the fold */
+      var firstErr = form.querySelector('[aria-invalid="true"], .error-msg:not(.hidden)');
+      if (firstErr) { firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      return;
+    }
+
+    /* ---- Step 1: request an OTP for this phone number ----
+       API_BASE stays '' when this page is served by server/server.js
+       (same origin). Point it at the API host if deployed separately. */
+    statusEl.classList.add('hidden');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2" aria-hidden="true"></i>Sending code…';
+
+    pendingPayload = buildPayload();
+
+    fetch(API_BASE + '/api/volunteer/request-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(pendingPayload)
+    })
+      .then(function (res) {
+        return res.json().then(function (data) { return { status: res.status, data: data }; });
+      })
+      .then(function (result) {
+        if (result.status === 200 && result.data.ok) {
+          showOtpPanel(result.data.phone_number, result.data.dev_otp);
+        } else if (result.status === 400 && result.data.fields) {
+          /* Server-side validation errors — mirror them onto the fields */
+          if (result.data.fields.full_name)     { setError(nameInput, result.data.fields.full_name); }
+          if (result.data.fields.phone_number)  { setError(phoneInput, result.data.fields.phone_number); }
+          if (result.data.fields.email)         { setError(emailInput, result.data.fields.email); }
+          if (result.data.fields.interest_area) { setError(interestInput, result.data.fields.interest_area); }
+          if (result.data.fields.ward)          { setError(wardSelect, result.data.fields.ward); }
+        } else {
+          showStatus(result.data.error || 'Something went wrong. Please try again shortly.');
+        }
+      })
+      .catch(function () {
+        showStatus('Network error — please check your connection and try again.');
+      })
+      .then(function () {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+      });
+  });
+
+  /* ---- Step 2: OTP entry, verification, resend, and back ---- */
+  var otpPanel = document.getElementById('otp-panel');
+  var otpInput = document.getElementById('otp-input');
+  var otpError = document.getElementById('otp-error');
+  var otpVerifyBtn = document.getElementById('otp-verify');
+  var otpResendBtn = document.getElementById('otp-resend');
+  var otpFallback = document.getElementById('otp-fallback');
+  var resendCooldown = null;
+  var fallbackTimer = null;
+
+  function showOtpError(message) {
+    otpError.textContent = message;
+    otpError.classList.remove('hidden');
+  }
+
+  function showOtpPanel(phone, devOtp) {
+    document.getElementById('otp-phone').textContent = phone;
+    var devHint = document.getElementById('otp-dev-hint');
+    if (devOtp) {
+      /* Dev mode only — the server never returns the code once a real
+         SMS/WhatsApp provider is configured. */
+      devHint.textContent = 'DEV MODE — your code: ' + devOtp;
+      devHint.classList.remove('hidden');
+    } else {
+      devHint.classList.add('hidden');
+    }
+    otpInput.value = '';
+    otpError.classList.add('hidden');
+    form.classList.add('hidden');
+    otpPanel.classList.remove('hidden');
+    startResendCooldown();
+    /* Reveal the WhatsApp fallback after 45s if the code is slow (Nigerian
+       telco latency), so a waiting user has a human channel instead of dropping off. */
+    otpFallback.classList.add('hidden');
+    clearTimeout(fallbackTimer);
+    fallbackTimer = setTimeout(function () {
+      otpFallback.classList.remove('hidden');
+      otpFallback.classList.add('flex');
+    }, 45000);
+    otpPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    otpInput.focus();
+  }
+
+  function startResendCooldown() {
+    var seconds = 60;
+    otpResendBtn.disabled = true;
+    clearInterval(resendCooldown);
+    resendCooldown = setInterval(function () {
+      seconds -= 1;
+      otpResendBtn.textContent = seconds > 0 ? 'Resend code (' + seconds + 's)' : 'Resend code';
+      if (seconds <= 0) { clearInterval(resendCooldown); otpResendBtn.disabled = false; }
+    }, 1000);
+  }
+
+  otpVerifyBtn.addEventListener('click', function () {
+    var code = otpInput.value.replace(/\D/g, '');
+    if (code.length !== 6) {
+      showOtpError('Enter the 6-digit code sent to your phone.');
+      return;
+    }
+    otpError.classList.add('hidden');
+    otpVerifyBtn.disabled = true;
+    var originalHtml = otpVerifyBtn.innerHTML;
+    otpVerifyBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2" aria-hidden="true"></i>Verifying…';
+
+    var body = Object.assign({}, pendingPayload, { otp: code });
+    fetch(API_BASE + '/api/volunteer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    })
+      .then(function (res) {
+        return res.json().then(function (data) { return { status: res.status, data: data }; });
+      })
+      .then(function (result) {
+        if (result.status === 201 || result.status === 409) {
+          clearTimeout(fallbackTimer);
+          otpPanel.classList.add('hidden');
+          showSuccess(result.data.ward || pendingPayload.ward, result.data.whatsapp_link);
+        } else {
+          showOtpError(result.data.error || 'Verification failed. Please try again.');
+        }
+      })
+      .catch(function () {
+        showOtpError('Network error — please check your connection and try again.');
+      })
+      .then(function () {
+        otpVerifyBtn.disabled = false;
+        otpVerifyBtn.innerHTML = originalHtml;
+      });
+  });
+
+  /* Enter key in the code box triggers verification */
+  otpInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); otpVerifyBtn.click(); }
+  });
+
+  otpResendBtn.addEventListener('click', function () {
+    otpError.classList.add('hidden');
+    fetch(API_BASE + '/api/volunteer/request-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(pendingPayload)
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data.ok) {
+          showOtpPanel(data.phone_number, data.dev_otp);
+        } else {
+          showOtpError(data.error || 'Could not resend the code. Please try again shortly.');
+        }
+      })
+      .catch(function () { showOtpError('Network error — could not resend the code.'); });
+  });
+
+  document.getElementById('otp-back').addEventListener('click', function () {
+    clearTimeout(fallbackTimer);
+    otpPanel.classList.add('hidden');
+    form.classList.remove('hidden');
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  /* Allow registering another volunteer */
+  document.getElementById('reset-form').addEventListener('click', function () {
+    form.reset();
+    successPanel.classList.add('hidden');
+    form.classList.remove('hidden');
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+})();
+</script>
+</body>
+</html>

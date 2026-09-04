@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Campaign Admin — Larrybash 2027 Volunteer Analytics</title>
+  <!-- Lightweight standalone page: no CDN dependencies, works offline behind Basic Auth -->
+  <style>
+    :root {
+      --navy:  #003366; /* Progressive Blue   */
+      --apc:   #3399CC; /* APC Light Blue     */
+      --green: #008000; /* Grassroots Green   */
+      --gold:  #DAA520; /* Awori Heritage Gold*/
+    }
+    * { box-sizing: border-box; margin: 0; }
+    body { font-family: "Segoe UI", system-ui, Roboto, Arial, sans-serif; background: #f4f7fa; color: #1f2937; }
+    header { background: var(--navy); color: #fff; padding: 16px 24px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+    header h1 { font-size: 1.15rem; }
+    header h1 span { color: var(--gold); }
+    .btn { display: inline-block; background: var(--green); color: #fff; font-weight: 700; padding: 10px 20px; border-radius: 999px; text-decoration: none; border: none; cursor: pointer; font-size: .95rem; }
+    .btn:hover { background: var(--gold); color: var(--navy); }
+    main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .card { background: #fff; border-radius: 14px; padding: 20px; box-shadow: 0 2px 8px rgba(0,51,102,.08); border-top: 5px solid var(--apc); }
+    .card .num { font-size: 2.2rem; font-weight: 900; color: var(--navy); }
+    .card .label { font-size: .85rem; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+    h2 { color: var(--navy); font-size: 1.05rem; margin: 8px 0 14px; }
+    .ward-table { background: #fff; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,51,102,.08); overflow: hidden; }
+    .ward-row { display: grid; grid-template-columns: 140px 1fr 56px; gap: 10px; align-items: center; padding: 10px 16px; border-bottom: 1px solid #eef2f6; font-size: .92rem; }
+    .ward-row:last-child { border-bottom: none; }
+    .ward-row .name { font-weight: 700; color: var(--navy); }
+    .bar-track { background: #e8eef4; border-radius: 999px; height: 14px; overflow: hidden; }
+    .bar-fill { background: linear-gradient(90deg, var(--green), var(--apc)); height: 100%; border-radius: 999px; min-width: 2px; transition: width .5s ease; }
+    .ward-row .count { text-align: right; font-weight: 800; color: var(--green); }
+    .low .bar-fill { background: var(--gold); }
+    .low .count { color: var(--gold); }
+    .meta { margin-top: 18px; font-size: .8rem; color: #6b7280; }
+    .error { background: #fee2e2; color: #991b1b; padding: 14px 18px; border-radius: 10px; font-weight: 600; }
+    .badge { font-size: .7rem; background: var(--gold); color: var(--navy); font-weight: 800; padding: 3px 10px; border-radius: 999px; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Larrybash 2027 <span>| Volunteer Analytics</span></h1>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button id="refresh" class="btn" type="button">&#x21bb; Refresh</button>
+      <!-- CSV export: same-origin request, browser re-sends the Basic Auth credentials -->
+      <a class="btn" href="/admin/api/export.csv" download>&#x2b07; Export CSV</a>
+    </div>
+  </header>
+
+  <main>
+    <div id="error" class="error" hidden></div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="num" id="total">—</div>
+        <div class="label">Total Registered Volunteers</div>
+      </div>
+      <div class="card" style="border-top-color: var(--green);">
+        <div class="num" id="top-ward">—</div>
+        <div class="label">Strongest Ward</div>
+      </div>
+      <div class="card" style="border-top-color: var(--gold);">
+        <div class="num" id="weak-ward">—</div>
+        <div class="label">Needs Mobilization</div>
+      </div>
+    </div>
+
+    <h2>Ward-by-Ward Breakdown — 16 Wards of Ado-Odo/Ota</h2>
+    <div id="ward-table" class="ward-table" aria-live="polite"></div>
+
+    <p class="meta" id="meta"></p>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+      var errorEl = document.getElementById('error');
+
+      function render(stats) {
+        document.getElementById('total').textContent = stats.total;
+
+        // Rank wards by count to surface strongest / weakest engagement
+        var entries = stats.wards.map(function (w) { return { name: w, count: stats.byWard[w] || 0 }; });
+        var sorted = entries.slice().sort(function (a, b) { return b.count - a.count; });
+        document.getElementById('top-ward').textContent  = sorted[0].count > 0 ? sorted[0].name : '—';
+        document.getElementById('weak-ward').textContent = sorted[sorted.length - 1].name;
+
+        var max = Math.max(1, sorted[0].count);
+        var table = document.getElementById('ward-table');
+        table.innerHTML = '';
+        entries.forEach(function (w) {
+          var row = document.createElement('div');
+          row.className = 'ward-row' + (w.count <= max * 0.25 ? ' low' : '');
+          var pct = Math.round((w.count / max) * 100);
+          row.innerHTML =
+            '<span class="name"></span>' +
+            '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
+            '<span class="count">' + w.count + '</span>';
+          row.querySelector('.name').textContent = w.name; // textContent: no HTML injection
+          table.appendChild(row);
+        });
+
+        document.getElementById('meta').innerHTML =
+          'Data source: <span class="badge">' + (stats.driver === 'supabase' ? 'Supabase' : 'Dev memory store') +
+          '</span> &nbsp;&bull;&nbsp; Last refreshed: ' + new Date().toLocaleString();
+      }
+
+      function load() {
+        errorEl.hidden = true;
+        /* location.origin never carries userinfo, so this works even when the
+           page was opened via a user:pass@host URL (fetch rejects relative
+           URLs resolved against a credentialed base). */
+        fetch(location.origin + '/admin/api/stats', { headers: { 'Accept': 'application/json' } })
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          })
+          .then(render)
+          .catch(function (err) {
+            errorEl.textContent = 'Could not load statistics (' + err.message + '). Check the server log and refresh.';
+            errorEl.hidden = false;
+          });
+      }
+
+      document.getElementById('refresh').addEventListener('click', load);
+      load();
+    })();
+  </script>
+</body>
+</html>

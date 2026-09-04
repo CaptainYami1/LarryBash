@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="116" height="100" viewBox="0 0 116 100"
+     preserveAspectRatio="xMidYMid meet" role="img" aria-label="All Progressives Congress (APC) logo">
+  <!-- SVG rendition of the APC emblem, matched to the official artwork:
+       vertical green / white / light-blue field, a fist gripping the broom,
+       and a red base band carrying the party initials.
+       Swap this file for the party's supplied artwork before launch. -->
+
+  <!-- Vertical tricolour field -->
+  <rect x="0"  y="0" width="39" height="74" fill="#0A8A3F"/>
+  <rect x="39" y="0" width="38" height="74" fill="#FFFFFF"/>
+  <rect x="77" y="0" width="39" height="74" fill="#5BC2E7"/>
+
+  <!-- Broom: bristles fanning upward from the grip -->
+  <g stroke="#C68A3C" stroke-width="2.8" stroke-linecap="round">
+    <line x1="57" y1="46" x2="47" y2="15"/>
+    <line x1="57" y1="46" x2="53" y2="10"/>
+    <line x1="58" y1="46" x2="60" y2="9"/>
+    <line x1="59" y1="46" x2="68" y2="12"/>
+    <line x1="59" y1="46" x2="75" y2="19"/>
+  </g>
+  <rect x="51" y="43" width="15" height="6" rx="2" fill="#9A6A31"/>
+
+  <!-- Fist gripping the handle, forearm down to the base -->
+  <rect x="48" y="49" width="20" height="13" rx="5.5" fill="#3A2917"/>
+  <rect x="53" y="60" width="11" height="14" fill="#3A2917"/>
+
+  <!-- Red base band with the party initials -->
+  <rect x="0" y="74" width="116" height="26" fill="#D42027"/>
+  <text x="58" y="93" font-family="Montserrat, Arial, sans-serif" font-size="20" font-weight="900"
+        fill="#FFFFFF" text-anchor="middle" letter-spacing="1.5">APC</text>
+</svg>
